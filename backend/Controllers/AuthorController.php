@@ -8,7 +8,10 @@ use BackOffice\Models\Author;
 
 final class AuthorController extends BaseController
 {
-    public function index(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function index(array $params = []): void
     {
         $items = (new Author())->all();
         $this->render('authors/index', [
@@ -19,7 +22,10 @@ final class AuthorController extends BaseController
         ]);
     }
 
-    public function create(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function create(array $params = []): void
     {
         $this->render('authors/form', [
             'csrf' => Csrf::token(),
@@ -29,7 +35,10 @@ final class AuthorController extends BaseController
         ]);
     }
 
-    public function store(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function store(array $params = []): void
     {
         $this->requirePostCsrf();
         $name = trim((string)($_POST['name'] ?? ''));
@@ -47,7 +56,17 @@ final class AuthorController extends BaseController
             return;
         }
 
-        (new Author())->create($name, $email);
+        try {
+            (new Author())->create($name, $email);
+        } catch (\Throwable) {
+            $this->render('authors/form', [
+                'csrf' => Csrf::token(),
+                'mode' => 'create',
+                'author' => ['name' => $name, 'email' => (string)($email ?? '')],
+                'errors' => ['name' => 'Impossible de créer l\'auteur (erreur DB).'],
+            ]);
+            return;
+        }
         $this->flash('success', 'Auteur créé.');
         $this->redirect('/authors');
     }

@@ -9,7 +9,10 @@ use BackOffice\Models\User;
 
 final class UserController extends BaseController
 {
-    public function index(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function index(array $params = []): void
     {
         $items = (new User())->all();
         $this->render('users/index', [
@@ -20,7 +23,10 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function create(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function create(array $params = []): void
     {
         $this->render('users/form', [
             'csrf' => Csrf::token(),
@@ -30,7 +36,10 @@ final class UserController extends BaseController
         ]);
     }
 
-    public function store(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function store(array $params = []): void
     {
         $this->requirePostCsrf();
         $email = trim((string)($_POST['email'] ?? ''));

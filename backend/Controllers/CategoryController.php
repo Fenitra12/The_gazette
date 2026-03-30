@@ -8,7 +8,10 @@ use BackOffice\Models\Category;
 
 final class CategoryController extends BaseController
 {
-    public function index(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function index(array $params = []): void
     {
         $items = (new Category())->all();
         $this->render('categories/index', [
@@ -19,7 +22,10 @@ final class CategoryController extends BaseController
         ]);
     }
 
-    public function create(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function create(array $params = []): void
     {
         $this->render('categories/form', [
             'csrf' => Csrf::token(),
@@ -29,7 +35,10 @@ final class CategoryController extends BaseController
         ]);
     }
 
-    public function store(): void
+    /**
+     * @param array<string,mixed> $params
+     */
+    public function store(array $params = []): void
     {
         $this->requirePostCsrf();
         $name = trim((string)($_POST['name'] ?? ''));
@@ -46,7 +55,17 @@ final class CategoryController extends BaseController
             return;
         }
 
-        (new Category())->create($name, $slug);
+        try {
+            (new Category())->create($name, $slug);
+        } catch (\Throwable) {
+            $this->render('categories/form', [
+                'csrf' => Csrf::token(),
+                'mode' => 'create',
+                'category' => ['name' => $name, 'slug' => $slug],
+                'errors' => ['slug' => 'Impossible de créer la catégorie (slug déjà utilisé ou erreur DB).'],
+            ]);
+            return;
+        }
         $this->flash('success', 'Catégorie créée.');
         $this->redirect('/categories');
     }
