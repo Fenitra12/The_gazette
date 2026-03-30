@@ -10,10 +10,6 @@ RewriteBase /
 # -----------------------------------------------------------------------
 RewriteRule ^(config|Core|Controllers|Models|Views)(/|$) - [F,L]
 
-# -----------------------------------------------------------------------
-# Règles explicites par route (PDF : utilisation des groupes de capture)
-# -----------------------------------------------------------------------
-
 # Règle 1 : Page d'accueil
 # Exemple : /
 RewriteRule ^$ index.php [L]
