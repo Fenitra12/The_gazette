@@ -104,10 +104,10 @@ false, 'published',
 
 -- 2
 (
-'Civilian Impact in Conflict Zones',
+'Civilian Impact in Conflict Zones fenitra',
 'civilian-impact-conflict-zones',
 'Reports highlight humanitarian concerns in affected regions.',
-'The Iran conflict escalation is having a profound humanitarian impact as civilian populations face increasing challenges. Middle East tensions are affecting daily life, economic stability, and access to essential services.
+'The Iran Fenitra conflict escalation is having a profound humanitarian impact as civilian populations face increasing challenges. Middle East tensions are affecting daily life, economic stability, and access to essential services.
 
 The geopolitical crisis surrounding the Iran conflict has created uncertainty and fear among local communities. Reports indicate displacement, resource shortages, and growing humanitarian needs.
 
