@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: mvc_app
+    volumes:
+      - .:/var/www/html
+    restart: always
+    networks:
+      - mvc-network
+
+  web:
+    image: nginx:alpine
+    container_name: mvc_web
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    restart: always
+    networks:
+      - mvc-network
+
+  db:
+    image: postgres:17
+    container_name: mvc_db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: thegazette
+    ports:
+      - "5432:5432"
+    volumes:
+      - mvc_db_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - mvc-network
+
+volumes:
+  mvc_db_data:
+
+networks:
+  mvc-network:
+    driver: bridge
