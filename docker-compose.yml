@@ -8,6 +8,14 @@ services:
     container_name: mvc_app
     volumes:
       - .:/var/www/html
+    environment:
+      APP_ENV: local
+      DB_DRIVER: pgsql
+      DB_HOST: mvc_db
+      DB_PORT: 5432
+      DB_NAME: thegazette
+      DB_USER: root
+      DB_PASS: password
     restart: always
     networks:
       - mvc-network
@@ -37,6 +45,7 @@ services:
       - "5432:5432"
     volumes:
       - mvc_db_data:/var/lib/postgresql/data
+      - ./bd/script.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
     restart: always
     networks:
       - mvc-network
