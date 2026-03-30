@@ -76,8 +76,21 @@ final class ArticleController extends BaseController
     {
         $this->requirePostCsrf();
         $payload = $this->payloadFromPost();
+        $uploadError = null;
+
+        $uploadedImage = $this->handleImageUpload();
+        if ($uploadedImage !== null) {
+            if (str_starts_with($uploadedImage, '__ERROR__:')) {
+                $uploadError = substr($uploadedImage, 10);
+            } else {
+                $payload['featured_image'] = $uploadedImage;
+            }
+        }
 
         $errors = $this->validate($payload, null);
+        if ($uploadError !== null) {
+            $errors['featured_image_upload'] = $uploadError;
+        }
         if ($errors) {
             $this->render('articles/form', [
                 'csrf' => Csrf::token(),
@@ -136,7 +149,20 @@ final class ArticleController extends BaseController
         }
 
         $payload = $this->payloadFromPost();
+        $uploadError = null;
+
+        $uploadedImage = $this->handleImageUpload();
+        if ($uploadedImage !== null) {
+            if (str_starts_with($uploadedImage, '__ERROR__:')) {
+                $uploadError = substr($uploadedImage, 10);
+            } else {
+                $payload['featured_image'] = $uploadedImage;
+            }
+        }
         $errors = $this->validate($payload, $id);
+        if ($uploadError !== null) {
+            $errors['featured_image_upload'] = $uploadError;
+        }
         if ($errors) {
             $payload['id'] = $id;
             $this->render('articles/form', [
@@ -215,6 +241,60 @@ final class ArticleController extends BaseController
     }
 
     /**
+     * @return string|null Filename, null if no upload, "__ERROR__:<message>" if invalid
+     */
+    private function handleImageUpload(): ?string
+    {
+        if (!isset($_FILES['featured_image_upload']) || !is_array($_FILES['featured_image_upload'])) {
+            return null;
+        }
+
+        $file = $_FILES['featured_image_upload'];
+        $error = (int)($file['error'] ?? UPLOAD_ERR_NO_FILE);
+        if ($error === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+        if ($error !== UPLOAD_ERR_OK) {
+            return '__ERROR__:Erreur upload image.';
+        }
+
+        $tmpName = (string)($file['tmp_name'] ?? '');
+        if ($tmpName === '' || !is_uploaded_file($tmpName)) {
+            return '__ERROR__:Fichier upload invalide.';
+        }
+
+        $size = (int)($file['size'] ?? 0);
+        if ($size <= 0 || $size > (2 * 1024 * 1024)) {
+            return '__ERROR__:Image trop volumineuse (max 2 Mo).';
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mime = (string)$finfo->file($tmpName);
+        $allowed = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/webp' => 'webp',
+            'image/gif' => 'gif',
+        ];
+        if (!isset($allowed[$mime])) {
+            return '__ERROR__:Format image non autorisé.';
+        }
+
+        $uploadDir = __DIR__ . '/../public/uploads';
+        if (!is_dir($uploadDir) && !mkdir($uploadDir, 0755, true) && !is_dir($uploadDir)) {
+            return '__ERROR__:Impossible de créer le dossier upload.';
+        }
+
+        $filename = sprintf('%s_%s.%s', date('Ymd_His'), bin2hex(random_bytes(8)), $allowed[$mime]);
+        $destination = $uploadDir . '/' . $filename;
+        if (!move_uploaded_file($tmpName, $destination)) {
+            return '__ERROR__:Impossible d\'enregistrer l\'image.';
+        }
+
+        return $filename;
+    }
+
+    /**
      * @param array<string,mixed> $data
      * @return array<string,string>
      */
@@ -224,7 +304,7 @@ final class ArticleController extends BaseController
 
         if ($data['title'] === '') {
             $errors['title'] = 'Le titre est obligatoire.';
-        } elseif (mb_strlen((string)$data['title']) > 255) {
+        } elseif (strlen((string)$data['title']) > 255) {
             $errors['title'] = 'Le titre est trop long.';
         }
 
@@ -260,7 +340,7 @@ final class ArticleController extends BaseController
             $errors['published_at'] = 'Date de publication invalide.';
         }
 
-        if ($data['meta_description'] !== '' && mb_strlen((string)$data['meta_description']) > 255) {
+        if ($data['meta_description'] !== '' && strlen((string)$data['meta_description']) > 255) {
             $errors['meta_description'] = 'Meta description trop longue.';
         }
 

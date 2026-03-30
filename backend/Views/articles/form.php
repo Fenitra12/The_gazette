@@ -18,7 +18,7 @@ $errors = $errors ?? [];
         <a class="btn secondary" href="/articles">Retour</a>
     </div>
 
-    <form method="post" action="<?= $isEdit ? '/articles/' . (int)($a['id'] ?? 0) : '/articles' ?>" style="margin-top:16px;">
+    <form method="post" action="<?= $isEdit ? '/articles/' . (int)($a['id'] ?? 0) : '/articles' ?>" style="margin-top:16px;" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
 
         <div class="grid cols-2">
@@ -101,6 +101,14 @@ $errors = $errors ?? [];
             <div>
                 <label for="featured_image">Image (nom de fichier)</label>
                 <input id="featured_image" name="featured_image" value="<?= Helpers::e((string)($a['featured_image'] ?? '')) ?>" placeholder="ex: hero.jpg">
+            </div>
+            <div>
+                <label for="featured_image_upload">Uploader une image</label>
+                <input id="featured_image_upload" name="featured_image_upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+                <?php if (!empty($errors['featured_image_upload'])): ?><div class="error" style="margin-top:8px;"><?= Helpers::e((string)$errors['featured_image_upload']) ?></div><?php endif; ?>
+                <?php if (!empty($a['featured_image'])): ?>
+                    <p class="muted" style="margin:8px 0 0;">Image actuelle: <?= Helpers::e((string)$a['featured_image']) ?></p>
+                <?php endif; ?>
             </div>
             <div>
                 <label for="views">Vues</label>

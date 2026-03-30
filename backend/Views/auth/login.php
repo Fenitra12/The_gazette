@@ -17,10 +17,10 @@ $title = 'Connexion';
         <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
 
         <label for="email">Email</label>
-        <input id="email" name="email" type="email" required>
+        <input id="email" name="email" type="email" value="admin@thegazette.local" required>
 
         <label for="password">Mot de passe</label>
-        <input id="password" name="password" type="password" required>
+        <input id="password" name="password" type="password" value="admin123" required>
 
         <div style="margin-top:16px;">
             <button class="btn" type="submit">Se connecter</button>
