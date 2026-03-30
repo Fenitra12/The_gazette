@@ -98,8 +98,42 @@ Les objectifs du rewriting (cf. cours) :
 ### Le fichier .htaccess (`frontend/public/.htaccess`)
 
 ```apache
-Options +FollowSymlinks
+# Activer le suivi des liens symboliques + désactiver le listage des dossiers
+Options +FollowSymlinks -Indexes
+
+# Activer le moteur de réécriture d'URL
 RewriteEngine On
+RewriteBase /
+
+# -----------------------------------------------------------------------
+# Sécurité : bloquer l'accès direct aux dossiers de l'application
+# -----------------------------------------------------------------------
+RewriteRule ^(config|Core|Controllers|Models|Views)(/|$) - [F,L]
+
+# Règle 1 : Page d'accueil
+RewriteRule ^$ index.php [L]
+
+# Règle 2 : Article — /article/{slug}
+RewriteRule ^article/([a-zA-Z0-9_-]+)/?$ index.php [QSA,L]
+
+# Règle 3 : Catégorie avec pagination — /categorie/{slug}/{page}
+RewriteRule ^categorie/([a-zA-Z0-9_-]+)/([0-9]+)/?$ index.php [QSA,L]
+
+# Règle 4 : Catégorie — /categorie/{slug}
+RewriteRule ^categorie/([a-zA-Z0-9_-]+)/?$ index.php [QSA,L]
+
+# Règle 5 : Page À propos
+RewriteRule ^about/?$ index.php [L]
+
+# Règle 6 : Page Contact
+RewriteRule ^contact/?$ index.php [L]
+
+# Règle 7 : Sitemap XML
+RewriteRule ^sitemap\.xml$ index.php [L]
+
+# -----------------------------------------------------------------------
+# Fallback : ne pas réécrire si le fichier ou dossier existe (assets statiques)
+# -----------------------------------------------------------------------
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
@@ -109,36 +143,58 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 
 #### Activation du moteur
 
-- **`Options +FollowSymlinks`** : Le serveur Apache doit suivre les liens symboliques. C'est un prerequis obligatoire pour que le module `mod_rewrite` fonctionne.
-- **`RewriteEngine On`** : Active le moteur de reecriture d'URL. Sans cette ligne, aucune `RewriteRule` ne sera evaluee.
+- **`Options +FollowSymlinks`** : Apache doit suivre les liens symboliques. Prerequis obligatoire pour `mod_rewrite`.
+- **`-Indexes`** : Desactive le listage du contenu des dossiers. Sans cette option, un visiteur qui accede a `/css/` verrait la liste de tous les fichiers CSS.
+- **`RewriteEngine On`** : Active le moteur de reecriture. Sans cette ligne, aucune `RewriteRule` n'est evaluee.
+- **`RewriteBase /`** : Definit le chemin de base pour les rewrites. Evite des problemes de chemin si le site est deploye dans un sous-dossier.
 
-#### Conditions (`RewriteCond`)
-
-```apache
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-```
-
-Ces deux conditions s'appliquent a la `RewriteRule` qui suit. Elles signifient :
-- `!-f` : la requete ne correspond PAS a un fichier existant sur le disque
-- `!-d` : la requete ne correspond PAS a un dossier existant sur le disque
-
-Cela protege les fichiers statiques (CSS, JS, images, fonts) : si le fichier existe physiquement, Apache le sert directement sans appliquer de regle de reecriture.
-
-#### La regle de reecriture (`RewriteRule`)
+#### Regle de securite
 
 ```apache
-RewriteRule ^(.*)$ index.php [QSA,L]
+RewriteRule ^(config|Core|Controllers|Models|Views)(/|$) - [F,L]
 ```
 
 | Partie | Signification |
 |--------|---------------|
-| `^(.*)$` | Correspond a n'importe quelle URL |
-| `index.php` | Toutes les requetes sont redirigees vers le front controller |
-| `[QSA]` | "Query String Append" : conserve les parametres GET existants |
-| `[L]` | "Last" : arrete d'evaluer les regles suivantes |
+| `^(config\|Core\|Controllers\|Models\|Views)` | Correspond aux dossiers sensibles de l'application |
+| `-` | Ne pas réécrire l'URL (la garder telle quelle) |
+| `[F]` | Retourner une erreur **403 Forbidden** |
+| `[L]` | Arreter l'evaluation des regles suivantes |
 
-**Resultat** : Toutes les requetes arrivent a `index.php`, qui peut alors lire l'URI originale via `$_SERVER['REQUEST_URI']`. La technologie PHP reste totalement invisible pour l'utilisateur.
+Protege les fichiers PHP internes (logique metier, config DB, modeles) contre tout acces direct via le navigateur.
+
+#### Regles de routage (Regles 1 a 7)
+
+Chaque route est definie explicitement avec un pattern precis :
+
+| Regle | Pattern | Exemple |
+|-------|---------|---------|
+| 1 | `^$` | `/` (accueil exact) |
+| 2 | `^article/([a-zA-Z0-9_-]+)/?$` | `/article/iran-nuclear-deal` |
+| 3 | `^categorie/([a-zA-Z0-9_-]+)/([0-9]+)/?$` | `/categorie/diplomacy/2` |
+| 4 | `^categorie/([a-zA-Z0-9_-]+)/?$` | `/categorie/sport` |
+| 5 | `^about/?$` | `/about` |
+| 6 | `^contact/?$` | `/contact` |
+| 7 | `^sitemap\.xml$` | `/sitemap.xml` |
+
+Points importants :
+- `([a-zA-Z0-9_-]+)` capture un slug (lettres, chiffres, tirets, underscores)
+- `([0-9]+)` capture uniquement des chiffres (numero de page)
+- `/?` rend le slash final optionnel
+- `\.` echappe le point dans `sitemap.xml` (sans l'echappement, `.` matcherait n'importe quel caractere)
+- La regle 3 (avec pagination) est placee **avant** la regle 4 pour eviter qu'un numero de page soit interprete comme un slug
+
+#### Fallback (assets statiques)
+
+```apache
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+```
+
+Si aucune des regles 1-7 ne matche, ce fallback prend le relais mais seulement si la requete ne correspond pas a un fichier (`!-f`) ou un dossier (`!-d`) existant. Cela protege les assets statiques (CSS, JS, images, fonts) qui sont servis directement par Apache.
+
+**Resultat** : Toutes les requetes arrivent a `index.php`, qui lit l'URI originale via `$_SERVER['REQUEST_URI']`. La technologie PHP reste totalement invisible pour l'utilisateur.
 
 ### Comment PHP dispatche ensuite (`index.php`)
 
