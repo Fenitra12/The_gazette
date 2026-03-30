@@ -72,6 +72,11 @@ INSERT INTO authors (id, name, email) VALUES
     (4, 'Analyste', NULL),
     (5, 'Économiste', NULL);
 
+-- Resynchroniser les séquences après inserts avec id explicites
+SELECT setval(pg_get_serial_sequence('users', 'id'), COALESCE((SELECT MAX(id) FROM users), 1), true);
+SELECT setval(pg_get_serial_sequence('categories', 'id'), COALESCE((SELECT MAX(id) FROM categories), 1), true);
+SELECT setval(pg_get_serial_sequence('authors', 'id'), COALESCE((SELECT MAX(id) FROM authors), 1), true);
+
 INSERT INTO articles (
 title, slug, excerpt, content, featured_image,
 category_id, author_id,

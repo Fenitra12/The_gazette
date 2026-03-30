@@ -16,22 +16,26 @@ $title = $title ?? 'BackOffice';
     <meta name="robots" content="noindex, nofollow">
     <style>
         :root { color-scheme: light; }
+        * { box-sizing: border-box; }
         body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#f6f7fb; color:#111; }
-        header { background:#111827; color:#fff; padding:12px 16px; display:flex; align-items:center; gap:16px; }
+        header { background:#111827; color:#fff; padding:12px 16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
         header a { color:#fff; text-decoration:none; font-weight:600; }
-        nav { display:flex; gap:12px; align-items:center; }
+        nav { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
         .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
-        .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; }
+        .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; overflow-x:auto; }
         .btn { display:inline-block; background:#2563eb; color:#fff; padding:10px 12px; border-radius:10px; border:0; cursor:pointer; text-decoration:none; font-weight:600; }
         .btn.secondary { background:#374151; }
         .btn.danger { background:#dc2626; }
-        input, textarea, select { width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d1d5db; }
+        input, textarea, select { width:100%; max-width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d1d5db; }
         label { display:block; font-weight:600; margin:12px 0 6px; }
         .grid { display:grid; gap:16px; }
-        .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+        .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .error { background:#fee2e2; border:1px solid #fecaca; color:#991b1b; padding:12px; border-radius:10px; }
-        .topbar { margin-left:auto; display:flex; align-items:center; gap:12px; }
+        .topbar { margin-left:auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
         .muted { color:#6b7280; }
+        @media (max-width: 900px) {
+            .grid.cols-2 { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
