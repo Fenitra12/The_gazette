@@ -22,6 +22,17 @@ abstract class BaseController
             $data['metaDescription'] = 'Latest news and analysis on the Iran conflict, Middle East tensions and geopolitical crisis.';
         }
 
+        // URL canonique
+        if (!isset($data['canonicalUrl'])) {
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            $data['canonicalUrl'] = $protocol . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . strtok($_SERVER['REQUEST_URI'], '?');
+        }
+
+        // Schema.org par défaut (WebSite)
+        if (!isset($data['schemaOrg'])) {
+            $data['schemaOrg'] = null;
+        }
+
         extract($data);
 
         ob_start();
@@ -32,6 +43,10 @@ abstract class BaseController
             echo "Vue introuvable: " . htmlspecialchars($view);
         }
         $content = ob_get_clean();
+
+        // Cache navigateur pour les pages dynamiques (60s)
+        header('Cache-Control: public, max-age=60, must-revalidate');
+        header('Vary: Accept-Encoding');
 
         require __DIR__ . '/../Views/layout.php';
     }

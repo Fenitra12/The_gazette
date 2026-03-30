@@ -1,0 +1,128 @@
+<?php
+
+/**
+ * Endpoint de redimensionnement d'images.
+ * Appele par Nginx via @resize quand l'image en cache n'existe pas encore.
+ *
+ * URL attendue : /img/cache/{width}x{height}/{subdir}/{filename}
+ */
+
+// Parse l'URI
+$uri = $_SERVER['REQUEST_URI'] ?? '';
+if (!preg_match('#^/img/cache/(\d+)x(\d+)/(bg-img|blog-img|core-img)/([a-zA-Z0-9._-]+\.(jpg|jpeg|png|gif))$#', $uri, $matches)) {
+    http_response_code(404);
+    exit('Not found');
+}
+
+$width = (int) $matches[1];
+$height = (int) $matches[2];
+$subdir = $matches[3];
+$filename = $matches[4];
+$ext = strtolower($matches[5]);
+
+// Validation des dimensions
+if ($width <= 0 || $width > 2000 || $height < 0 || $height > 2000) {
+    http_response_code(400);
+    exit('Invalid dimensions');
+}
+
+// Chemin source
+$sourceDir = '/var/www/html/frontend/Views/img';
+$sourcePath = $sourceDir . '/' . $subdir . '/' . $filename;
+
+if (!file_exists($sourcePath)) {
+    http_response_code(404);
+    exit('Source image not found');
+}
+
+// Charger l'image source
+$imageInfo = getimagesize($sourcePath);
+if ($imageInfo === false) {
+    http_response_code(400);
+    exit('Invalid image');
+}
+
+$origWidth = $imageInfo[0];
+$origHeight = $imageInfo[1];
+$mimeType = $imageInfo['mime'];
+
+// Charger selon le type
+switch ($mimeType) {
+    case 'image/jpeg':
+        $source = imagecreatefromjpeg($sourcePath);
+        break;
+    case 'image/png':
+        $source = imagecreatefrompng($sourcePath);
+        break;
+    case 'image/gif':
+        $source = imagecreatefromgif($sourcePath);
+        break;
+    default:
+        http_response_code(400);
+        exit('Unsupported image type');
+}
+
+if (!$source) {
+    http_response_code(500);
+    exit('Failed to load image');
+}
+
+// Calculer les dimensions finales
+$newWidth = $width;
+if ($height === 0) {
+    // Proportionnel
+    $newHeight = (int) round($origHeight * ($newWidth / $origWidth));
+} else {
+    $newHeight = $height;
+}
+
+// Ne pas upscaler
+if ($newWidth > $origWidth) {
+    $newWidth = $origWidth;
+    $newHeight = $origHeight;
+}
+
+// Redimensionner
+$resized = imagecreatetruecolor($newWidth, $newHeight);
+
+// Preserver la transparence pour PNG
+if ($mimeType === 'image/png') {
+    imagealphablending($resized, false);
+    imagesavealpha($resized, true);
+}
+
+imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+
+// Creer le repertoire cache
+$cacheDir = $sourceDir . '/cache/' . $width . 'x' . $height . '/' . $subdir;
+if (!is_dir($cacheDir)) {
+    mkdir($cacheDir, 0755, true);
+}
+
+$cachePath = $cacheDir . '/' . $filename;
+
+// Sauvegarder
+switch ($mimeType) {
+    case 'image/jpeg':
+        imagejpeg($resized, $cachePath, 80);
+        break;
+    case 'image/png':
+        imagepng($resized, $cachePath, 8);
+        break;
+    case 'image/gif':
+        imagegif($resized, $cachePath);
+        break;
+}
+
+// Liberer la memoire
+imagedestroy($source);
+imagedestroy($resized);
+
+// Servir le fichier
+header('Content-Type: ' . $mimeType);
+header('Content-Length: ' . filesize($cachePath));
+header('Cache-Control: public, max-age=2592000, immutable');
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 2592000) . ' GMT');
+
+readfile($cachePath);
+exit;

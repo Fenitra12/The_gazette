@@ -7,7 +7,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
 
 <section class="single-post-area">
     <!-- Single Post Title -->
-    <div class="single-post-title bg-img background-overlay" style="background-image: url(/img/bg-img/<?= ($article['id'] % 4) + 1 ?>.jpg);">
+    <div class="single-post-title bg-img background-overlay" style="background-image: url(<?= resized('bg-img/' . (($article['id'] % 4) + 1) . '.jpg', 1200, 580) ?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-end">
                 <div class="col-12">
@@ -15,7 +15,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
                         <div class="gazette-post-tag">
                             <a href="/categorie/<?= htmlspecialchars($article['category_slug']) ?>"><?= htmlspecialchars($article['category_name']) ?></a>
                         </div>
-                        <h2 class="font-pt"><?= htmlspecialchars($article['title']) ?></h2>
+                        <h1 class="font-pt" style="color: #fff;"><?= htmlspecialchars($article['title']) ?></h1>
                         <p><?= date('F d, Y', strtotime($article['published_at'])) ?> | By <?= htmlspecialchars($article['author_name']) ?></p>
                     </div>
                 </div>
@@ -35,7 +35,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
                 </div>
                 <div class="col-12">
                     <div class="single-post-thumb">
-                        <img src="/img/blog-img/<?= ($article['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($article['title']) ?>">
+                        <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], 1110) ?>
                     </div>
                 </div>
                 <?php if (!empty($lastParagraphs)): ?>
@@ -90,7 +90,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
             <div class="col-12 col-md-4">
                 <div class="gazette-single-catagory-post">
                     <div class="single-catagory-post-thumb mb-15">
-                        <img src="/img/blog-img/<?= ($rel['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($rel['title']) ?>">
+                        <?= img('blog-img/' . (($rel['id'] % 25) + 1) . '.jpg', $rel['title'], 350) ?>
                     </div>
                     <div class="gazette-post-tag">
                         <a href="/categorie/<?= htmlspecialchars($rel['category_slug']) ?>"><?= htmlspecialchars($rel['category_name']) ?></a>

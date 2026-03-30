@@ -1,0 +1,12 @@
+# Activer le suivi des liens symboliques
+Options +FollowSymlinks
+
+# Activer le moteur de reecriture d'URL
+RewriteEngine On
+
+# Ne pas reecrire les fichiers et dossiers existants (css, js, img, fonts)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Tout rediriger vers index.php (front controller)
+RewriteRule ^(.*)$ index.php [QSA,L]

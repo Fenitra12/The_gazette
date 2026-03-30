@@ -10,7 +10,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
 <!-- Welcome Blog Slide Area Start -->
 <section class="welcome-blog-post-slide owl-carousel">
     <?php foreach ($sliderArticles as $slide): ?>
-    <div class="single-blog-post-slide bg-img background-overlay-5" style="background-image: url(/img/bg-img/<?= ($slide['id'] % 4) + 1 ?>.jpg);">
+    <div class="single-blog-post-slide bg-img background-overlay-5" style="background-image: url(<?= resized('bg-img/' . (($slide['id'] % 4) + 1) . '.jpg', 1200, 580) ?>);">
         <div class="single-blog-post-content">
             <div class="tags">
                 <a href="/categorie/<?= htmlspecialchars($slide['category_slug']) ?>"><?= htmlspecialchars($slide['category_name']) ?></a>
@@ -52,10 +52,10 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <div class="gazette-post-tag">
                         <a href="/categorie/<?= htmlspecialchars($featuredArticle['category_slug']) ?>"><?= htmlspecialchars($featuredArticle['category_name']) ?></a>
                     </div>
-                    <h2 class="font-pt"><?= htmlspecialchars($featuredArticle['title']) ?></h2>
+                    <h1 class="font-pt"><?= htmlspecialchars($featuredArticle['title']) ?></h1>
                     <p class="gazette-post-date"><?= date('F d, Y', strtotime($featuredArticle['published_at'])) ?></p>
                     <div class="blog-post-thumbnail my-5">
-                        <img src="/img/blog-img/<?= ($featuredArticle['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($featuredArticle['title']) ?>">
+                        <?= img('blog-img/' . (($featuredArticle['id'] % 25) + 1) . '.jpg', $featuredArticle['title'], 850, 0, false) ?>
                     </div>
                     <p><?= htmlspecialchars($featuredArticle['excerpt']) ?></p>
                     <div class="post-continue-reading-share d-sm-flex align-items-center justify-content-between mt-30">
@@ -80,7 +80,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <?php foreach ($todayPopular as $tp): ?>
                     <div class="gazette-single-todays-post d-md-flex align-items-start mb-50">
                         <div class="todays-post-thumb">
-                            <img src="/img/blog-img/<?= ($tp['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($tp['title']) ?>">
+                            <?= img('blog-img/' . (($tp['id'] % 25) + 1) . '.jpg', $tp['title'], 250) ?>
                         </div>
                         <div class="todays-post-content">
                             <div class="gazette-post-tag">
@@ -105,7 +105,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         </div>
                         <?php foreach ($sidebarBreaking as $bn): ?>
                         <div class="single-breaking-news-widget">
-                            <img src="/img/blog-img/<?= ($bn['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($bn['title']) ?>">
+                            <?= img('blog-img/' . (($bn['id'] % 25) + 1) . '.jpg', $bn['title'], 270) ?>
                             <div class="breakingnews-title">
                                 <p>breaking news</p>
                             </div>
@@ -124,7 +124,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         <?php foreach ($sidebarDontMiss as $dm): ?>
                         <div class="single-dont-miss-post d-flex mb-30">
                             <div class="dont-miss-post-thumb">
-                                <img src="/img/blog-img/<?= ($dm['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($dm['title']) ?>">
+                                <?= img('blog-img/' . (($dm['id'] % 25) + 1) . '.jpg', $dm['title'], 70, 70) ?>
                             </div>
                             <div class="dont-miss-post-content">
                                 <a href="/article/<?= htmlspecialchars($dm['slug']) ?>" class="font-pt"><?= htmlspecialchars($dm['title']) ?></a>
@@ -140,7 +140,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                             <h5>Advert</h5>
                         </div>
                         <div class="advert-thumb mb-30">
-                            <a href="#"><img src="/img/bg-img/add.png" alt="Advertisement"></a>
+                            <a href="#"><img src="/img/bg-img/add.png" alt="Advertisement" loading="lazy"></a>
                         </div>
                     </div>
 
@@ -177,7 +177,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         <div class="gazette-single-catagory-post">
                             <?php if ($j === 0): ?>
                             <div class="single-catagory-post-thumb mb-15">
-                                <img src="/img/blog-img/<?= ($cArticle['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($cArticle['title']) ?>">
+                                <?= img('blog-img/' . (($cArticle['id'] % 25) + 1) . '.jpg', $cArticle['title'], 350) ?>
                             </div>
                             <div class="gazette-post-tag">
                                 <a href="/categorie/<?= htmlspecialchars($cat['slug']) ?>"><?= htmlspecialchars($cat['name']) ?></a>
@@ -207,7 +207,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         <div class="row">
                             <div class="col-12 col-md-5">
                                 <div class="editorial-post-thumb">
-                                    <img src="/img/blog-img/<?= ($editorial['id'] % 25) + 1 ?>.jpg" alt="<?= htmlspecialchars($editorial['title']) ?>">
+                                    <?= img('blog-img/' . (($editorial['id'] % 25) + 1) . '.jpg', $editorial['title'], 400) ?>
                                 </div>
                             </div>
                             <div class="col-12 col-md-7">

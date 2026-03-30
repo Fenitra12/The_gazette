@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="breacumb-content d-flex align-items-center justify-content-between">
-                    <h3 class="font-pt mb-0">Contact</h3>
+                    <h1 class="font-pt mb-0">Contact</h1>
                     <p class="editorial-post-date text-dark mb-0"><?= date('d F Y') ?></p>
                 </div>
             </div>

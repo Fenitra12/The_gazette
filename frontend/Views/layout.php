@@ -9,9 +9,27 @@
 
     <title><?= htmlspecialchars($metaTitle ?? 'TheGazette') ?></title>
 
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl ?? '') ?>">
+
     <link rel="icon" href="/img/core-img/favicon.ico">
     <link rel="stylesheet" href="/css/core-style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TheGazette",
+        "url": "<?= htmlspecialchars(($canonicalUrl ?? '') ? rtrim(preg_replace('#/[^/]*$#', '', $canonicalUrl ?? ''), '/') . '/' : '/') ?>"
+    }
+    </script>
+    <?php if (!empty($schemaOrg)): ?>
+    <script type="application/ld+json">
+    <?= json_encode($schemaOrg, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>
+    </script>
+    <?php endif; ?>
 </head>
 
 <body>
@@ -147,7 +165,7 @@
     <?= $content ?>
 
     <!-- Footer Area Start -->
-    <footer class="footer-area bg-img background-overlay" style="background-image: url(/img/bg-img/4.jpg);">
+    <footer class="footer-area bg-img background-overlay" style="background-image: url(<?= resized('bg-img/4.jpg', 1200, 600) ?>);">
         <div class="top-footer-area section_padding_100_70">
             <div class="container">
                 <div class="row">
