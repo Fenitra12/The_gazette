@@ -96,18 +96,7 @@ if (!$source) {
 
 // Calculer les dimensions finales
 $newWidth = $width;
-if ($height === 0) {
-    // Proportionnel
-    $newHeight = (int) round($origHeight * ($newWidth / $origWidth));
-} else {
-    $newHeight = $height;
-}
-
-// Ne pas upscaler
-if ($newWidth > $origWidth) {
-    $newWidth = $origWidth;
-    $newHeight = $origHeight;
-}
+$newHeight = $height;
 
 // Redimensionner
 $resized = imagecreatetruecolor($newWidth, $newHeight);
@@ -118,7 +107,53 @@ if ($mimeType === 'image/png') {
     imagesavealpha($resized, true);
 }
 
-imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+if ($height === 0) {
+    // Proportionnel (pas de crop)
+    $newHeight = (int) round($origHeight * ($newWidth / $origWidth));
+
+    // Ne pas upscaler en mode proportionnel
+    if ($newWidth > $origWidth) {
+        $newWidth = $origWidth;
+        $newHeight = $origHeight;
+    }
+
+    $resized = imagecreatetruecolor($newWidth, $newHeight);
+    if ($mimeType === 'image/png') {
+        imagealphablending($resized, false);
+        imagesavealpha($resized, true);
+    }
+
+    imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+} else {
+    // Crop centré pour respecter EXACTEMENT la largeur/hauteur demandées
+    $targetRatio = $newWidth / $newHeight;
+    $sourceRatio = $origWidth / $origHeight;
+
+    if ($sourceRatio > $targetRatio) {
+        $cropHeight = $origHeight;
+        $cropWidth = (int) round($origHeight * $targetRatio);
+        $srcX = (int) round(($origWidth - $cropWidth) / 2);
+        $srcY = 0;
+    } else {
+        $cropWidth = $origWidth;
+        $cropHeight = (int) round($origWidth / $targetRatio);
+        $srcX = 0;
+        $srcY = (int) round(($origHeight - $cropHeight) / 2);
+    }
+
+    imagecopyresampled(
+        $resized,
+        $source,
+        0,
+        0,
+        $srcX,
+        $srcY,
+        $newWidth,
+        $newHeight,
+        $cropWidth,
+        $cropHeight
+    );
+}
 
 // Creer le repertoire cache
 $cacheDir = $cacheBaseDir . '/' . $width . 'x' . $height . '/' . $subdir;

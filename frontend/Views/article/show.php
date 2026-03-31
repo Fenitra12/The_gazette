@@ -35,7 +35,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
                 </div>
                 <div class="col-12">
                     <div class="single-post-thumb">
-                        <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], 1110) ?>
+                        <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], 1110, 740) ?>
                     </div>
                 </div>
                 <?php if (!empty($lastParagraphs)): ?>
@@ -90,7 +90,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
             <div class="col-12 col-md-4">
                 <div class="gazette-single-catagory-post">
                     <div class="single-catagory-post-thumb mb-15">
-                        <?= img('blog-img/' . (($rel['id'] % 25) + 1) . '.jpg', $rel['title'], 350) ?>
+                        <?= img('blog-img/' . (($rel['id'] % 25) + 1) . '.jpg', $rel['title'], 350, 233) ?>
                     </div>
                     <div class="gazette-post-tag">
                         <a href="/categorie/<?= htmlspecialchars($rel['category_slug']) ?>"><?= htmlspecialchars($rel['category_name']) ?></a>

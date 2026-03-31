@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="single-team-area">
-                        <?= img('bg-img/t1.jpg', 'Team member - Editor', 255) ?>
+                        <?= img('bg-img/t1.jpg', 'Team member - Editor', 255, 170) ?>
                         <div class="team-member-data">
                             <h3 class="font-pt">Jane Doe</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="single-team-area">
-                        <?= img('bg-img/t2.jpg', 'Team member - Reporter', 255) ?>
+                        <?= img('bg-img/t2.jpg', 'Team member - Reporter', 255, 170) ?>
                         <div class="team-member-data">
                             <h3 class="font-pt">John Smith</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="single-team-area">
-                        <?= img('bg-img/t3.jpg', 'Team member - Analyst', 255) ?>
+                        <?= img('bg-img/t3.jpg', 'Team member - Analyst', 255, 170) ?>
                         <div class="team-member-data">
                             <h3 class="font-pt">Sarah Johnson</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="single-team-area">
-                        <?= img('bg-img/t4.jpg', 'Team member - Photographer', 255) ?>
+                        <?= img('bg-img/t4.jpg', 'Team member - Photographer', 255, 170) ?>
                         <div class="team-member-data">
                             <h3 class="font-pt">Mike Brown</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
