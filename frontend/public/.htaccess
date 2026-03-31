@@ -1,0 +1,47 @@
+# Activer le suivi des liens symboliques + désactiver le listage des dossiers
+Options +FollowSymlinks -Indexes
+
+# Activer le moteur de réécriture d'URL
+RewriteEngine On
+RewriteBase /
+
+# -----------------------------------------------------------------------
+# Sécurité : bloquer l'accès direct aux dossiers de l'application
+# -----------------------------------------------------------------------
+RewriteRule ^(config|Core|Controllers|Models|Views)(/|$) - [F,L]
+
+# Règle 1 : Page d'accueil
+# Exemple : /
+RewriteRule ^$ index.php [L]
+
+# Règle 2 : Article — /article/{slug}
+# Exemple : /article/mon-premier-article
+# $1 = slug de l'article ([a-zA-Z0-9_-]+)
+RewriteRule ^article/([a-zA-Z0-9_-]+)/?$ index.php [QSA,L]
+
+# Règle 3 : Catégorie avec pagination — /categorie/{slug}/{page}
+# Exemple : /categorie/politique/2
+# $1 = slug de la catégorie, $2 = numéro de page ([0-9]+)
+RewriteRule ^categorie/([a-zA-Z0-9_-]+)/([0-9]+)/?$ index.php [QSA,L]
+
+# Règle 4 : Catégorie — /categorie/{slug}
+# Exemple : /categorie/sport
+# $1 = slug de la catégorie ([a-zA-Z0-9_-]+)
+RewriteRule ^categorie/([a-zA-Z0-9_-]+)/?$ index.php [QSA,L]
+
+# Règle 5 : Page À propos
+RewriteRule ^about/?$ index.php [L]
+
+# Règle 6 : Page Contact
+RewriteRule ^contact/?$ index.php [L]
+
+# Règle 7 : Sitemap XML
+# Le \. échappe le point pour qu'il ne soit pas interprété comme "n'importe quel caractère"
+RewriteRule ^sitemap\.xml$ index.php [L]
+
+# -----------------------------------------------------------------------
+# Fallback : ne pas réécrire si le fichier ou dossier existe (assets statiques)
+# -----------------------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
