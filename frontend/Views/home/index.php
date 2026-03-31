@@ -15,7 +15,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
             <div class="tags">
                 <a href="/categorie/<?= htmlspecialchars($slide['category_slug']) ?>"><?= htmlspecialchars($slide['category_name']) ?></a>
             </div>
-            <h3><a href="/article/<?= htmlspecialchars($slide['slug']) ?>" class="font-pt"><?= htmlspecialchars($slide['title']) ?></a></h3>
+            <h2><a href="/article/<?= htmlspecialchars($slide['slug']) ?>" class="font-pt"><?= htmlspecialchars($slide['title']) ?></a></h2>
             <div class="date">
                 <a href="/article/<?= htmlspecialchars($slide['slug']) ?>"><?= date('F d, Y', strtotime($slide['published_at'])) ?></a>
             </div>
@@ -63,10 +63,10 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                             <a href="/article/<?= htmlspecialchars($featuredArticle['slug']) ?>" class="font-pt">Continue Reading <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
                         </div>
                         <div class="post-share-btn-group">
-                            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                 <?php if (!empty($todayPopular)): ?>
                 <div class="gazette-todays-post section_padding_100_50">
                     <div class="gazette-heading">
-                        <h4>today's most popular</h4>
+                        <h2>today's most popular</h2>
                     </div>
                     <?php foreach ($todayPopular as $tp): ?>
                     <div class="gazette-single-todays-post d-md-flex align-items-start mb-50">
@@ -101,7 +101,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <!-- Breaking News Widget -->
                     <div class="breaking-news-widget">
                         <div class="widget-title">
-                            <h5>breaking news</h5>
+                            <h2>breaking news</h2>
                         </div>
                         <?php foreach ($sidebarBreaking as $bn): ?>
                         <div class="single-breaking-news-widget">
@@ -110,7 +110,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                                 <p>breaking news</p>
                             </div>
                             <div class="breaking-news-heading gradient-background-overlay">
-                                <h5 class="font-pt"><a href="/article/<?= htmlspecialchars($bn['slug']) ?>" style="color:#fff;"><?= htmlspecialchars($bn['title']) ?></a></h5>
+                                <h3 class="font-pt"><a href="/article/<?= htmlspecialchars($bn['slug']) ?>" style="color:#fff;"><?= htmlspecialchars($bn['title']) ?></a></h3>
                             </div>
                         </div>
                         <?php endforeach; ?>
@@ -119,7 +119,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <!-- Don't Miss Widget -->
                     <div class="donnot-miss-widget">
                         <div class="widget-title">
-                            <h5>Don't miss</h5>
+                            <h2>Don't miss</h2>
                         </div>
                         <?php foreach ($sidebarDontMiss as $dm): ?>
                         <div class="single-dont-miss-post d-flex mb-30">
@@ -137,17 +137,17 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <!-- Advert Widget -->
                     <div class="advert-widget">
                         <div class="widget-title">
-                            <h5>Advert</h5>
+                            <h2>Advert</h2>
                         </div>
                         <div class="advert-thumb mb-30">
-                            <a href="#"><img src="/img/bg-img/add.png" alt="Advertisement" loading="lazy"></a>
+                            <a href="#" aria-label="Advertisement"><img src="/img/bg-img/add.png" alt="Advertisement" width="350" height="350" loading="lazy"></a>
                         </div>
                     </div>
 
                     <!-- Subscribe Widget -->
                     <div class="subscribe-widget">
                         <div class="widget-title">
-                            <h5>subscribe</h5>
+                            <h2>subscribe</h2>
                         </div>
                         <div class="subscribe-form">
                             <form action="#">
@@ -183,7 +183,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                                 <a href="/categorie/<?= htmlspecialchars($cat['slug']) ?>"><?= htmlspecialchars($cat['name']) ?></a>
                             </div>
                             <?php endif; ?>
-                            <h5><a href="/article/<?= htmlspecialchars($cArticle['slug']) ?>" class="font-pt"><?= htmlspecialchars($cArticle['title']) ?></a></h5>
+                            <h3><a href="/article/<?= htmlspecialchars($cArticle['slug']) ?>" class="font-pt"><?= htmlspecialchars($cArticle['title']) ?></a></h3>
                             <span><?= date('M d, Y', strtotime($cArticle['published_at'])) ?></span>
                         </div>
                         <?php endforeach; ?>

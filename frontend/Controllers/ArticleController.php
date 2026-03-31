@@ -47,12 +47,16 @@ class ArticleController extends BaseController
             'image' => $baseUrl . '/img/blog-img/' . (($article['id'] % 25) + 1) . '.jpg',
         ];
 
+        // LCP : image hero de l'article
+        $lcpImage = \App\Core\ImageHelper::url('bg-img/' . (($article['id'] % 4) + 1) . '.jpg', 1200, 580);
+
         $data = [
             'metaTitle'       => htmlspecialchars($article['meta_title'] ?: $article['title']) . ' | TheGazette',
             'metaDescription' => htmlspecialchars($article['meta_description'] ?: $article['excerpt']),
             'article'         => $article,
             'related'         => $related,
             'schemaOrg'       => $schemaOrg,
+            'lcpImage'        => $lcpImage,
         ];
 
         return $this->render('article/show', $data);

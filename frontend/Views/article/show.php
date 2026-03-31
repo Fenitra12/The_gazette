@@ -52,7 +52,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
                 <div class="col-12 col-md-10">
                     <div class="single-post-blockquote">
                         <blockquote>
-                            <h6 class="font-pt mb-0">"<?= htmlspecialchars($article['excerpt']) ?>"</h6>
+                            <p class="font-pt mb-0">"<?= htmlspecialchars($article['excerpt']) ?>"</p>
                         </blockquote>
                     </div>
                 </div>
@@ -65,10 +65,10 @@ $lastParagraphs = array_slice($paragraphs, 2);
                             <a href="/categorie/<?= htmlspecialchars($article['category_slug']) ?>"><?= htmlspecialchars($article['category_name']) ?></a>
                         </div>
                         <div class="post-share-btn-group">
-                            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Partager sur Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <p class="text-muted"><i class="fa fa-eye"></i> <?= number_format($article['views']) ?> views</p>
@@ -83,7 +83,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
 <section class="gazette-catagory-posts-area section_padding_100 bg-gray">
     <div class="container">
         <div class="gazette-heading">
-            <h4>Related Articles</h4>
+            <h2>Related Articles</h2>
         </div>
         <div class="row">
             <?php foreach ($related as $rel): ?>
@@ -95,7 +95,7 @@ $lastParagraphs = array_slice($paragraphs, 2);
                     <div class="gazette-post-tag">
                         <a href="/categorie/<?= htmlspecialchars($rel['category_slug']) ?>"><?= htmlspecialchars($rel['category_name']) ?></a>
                     </div>
-                    <h5><a href="/article/<?= htmlspecialchars($rel['slug']) ?>" class="font-pt"><?= htmlspecialchars($rel['title']) ?></a></h5>
+                    <h3><a href="/article/<?= htmlspecialchars($rel['slug']) ?>" class="font-pt"><?= htmlspecialchars($rel['title']) ?></a></h3>
                     <span><?= date('M d, Y', strtotime($rel['published_at'])) ?></span>
                 </div>
             </div>

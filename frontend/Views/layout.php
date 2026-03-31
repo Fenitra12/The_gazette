@@ -13,8 +13,37 @@
     <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl ?? '') ?>">
 
     <link rel="icon" href="/img/core-img/favicon.ico">
+
+    <!-- Preconnect Google Fonts for faster DNS/TLS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Critical CSS (render-blocking, needed for first paint) -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/core-style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+
+    <!-- Non-critical CSS loaded async (not needed for first paint) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Roboto:300,400,500,700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/owl.carousel.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/pe-icon-7-stroke.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/magnific-popup.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/animate.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Roboto:300,400,500,700&display=swap">
+        <link rel="stylesheet" href="/css/owl.carousel.css">
+        <link rel="stylesheet" href="/css/pe-icon-7-stroke.css">
+        <link rel="stylesheet" href="/css/magnific-popup.css">
+        <link rel="stylesheet" href="/css/animate.css">
+        <link rel="stylesheet" href="/css/jquery-ui.min.css">
+    </noscript>
+
+    <!-- Preload LCP image if provided by the controller -->
+    <?php if (!empty($lcpImage)): ?>
+    <link rel="preload" as="image" href="<?= htmlspecialchars($lcpImage) ?>">
+    <?php endif; ?>
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -41,7 +70,7 @@
                     <!-- Breaking News Area -->
                     <div class="col-12 col-md-6">
                         <div class="breaking-news-area">
-                            <h5 class="breaking-news-title">Breaking news</h5>
+                            <span class="breaking-news-title">Breaking news</span>
                             <div id="breakingNewsTicker" class="ticker">
                                 <ul>
                                     <?php
@@ -67,7 +96,7 @@
                                                 <span>1.1862</span>
                                             </div>
                                             <div class="stock-index minus-index">
-                                                <h4>0.18</h4>
+                                                <span class="stock-index-value">0.18</span>
                                             </div>
                                         </div>
                                         <div class="single-stock-report">
@@ -76,7 +105,7 @@
                                                 <span>15.674.99</span>
                                             </div>
                                             <div class="stock-index plus-index">
-                                                <h4>8.60</h4>
+                                                <span class="stock-index-value">8.60</span>
                                             </div>
                                         </div>
                                         <div class="single-stock-report">
@@ -85,7 +114,7 @@
                                                 <span>674.99</span>
                                             </div>
                                             <div class="stock-index minus-index">
-                                                <h4>13.60</h4>
+                                                <span class="stock-index-value">13.60</span>
                                             </div>
                                         </div>
                                     </li>
@@ -102,12 +131,12 @@
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-4">
                         <div class="logo-area">
-                            <a href="/"><img src="/img/core-img/logo.png" alt="TheGazette Logo"></a>
+                            <a href="/"><img src="/img/core-img/logo.png" alt="TheGazette Logo" width="334" height="35" fetchpriority="high"></a>
                         </div>
                     </div>
                     <div class="col-12 col-md-8">
                         <div class="header-advert-area">
-                            <a href="#"><img src="/img/bg-img/top-advert.png" alt="Advertisement"></a>
+                            <a href="#" aria-label="Advertisement"><img src="/img/bg-img/top-advert.png" alt="Advertisement" width="728" height="90" loading="lazy"></a>
                         </div>
                     </div>
                 </div>
@@ -136,7 +165,7 @@
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item" href="/">Accueil</a>
+                                                <a class="dropdown-item" href="/" aria-label="Accueil - Page principale">Accueil</a>
                                                 <a class="dropdown-item" href="/about">About Us</a>
                                                 <a class="dropdown-item" href="/contact">Contact</a>
                                             </div>
@@ -149,9 +178,9 @@
                                             <input class="d-none" type="submit" value="submit">
                                         </form>
                                     </div>
-                                    <div id="searchbtn">
+                                    <button type="button" id="searchbtn" aria-label="Rechercher">
                                         <i class="fa fa-search" aria-hidden="true"></i>
-                                    </div>
+                                    </button>
                                 </div>
                             </nav>
                         </div>
@@ -162,7 +191,9 @@
     </header>
     <!-- Header Area End -->
 
+    <main>
     <?= $content ?>
+    </main>
 
     <!-- Footer Area Start -->
     <footer class="footer-area bg-img background-overlay" style="background-image: url(<?= resized('bg-img/4.jpg', 1200, 600) ?>);">
@@ -176,7 +207,7 @@
                         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                             <div class="single-footer-widget">
                                 <div class="footer-widget-title">
-                                    <h4 class="font-pt"><?= $footerTitles[$i] ?? 'Plus' ?></h4>
+                                    <h2 class="font-pt"><?= $footerTitles[$i] ?? 'Plus' ?></h2>
                                 </div>
                                 <ul class="footer-widget-menu">
                                     <?php foreach ($chunk as $fCat): ?>
@@ -190,7 +221,7 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                         <div class="single-footer-widget">
                             <div class="footer-widget-title">
-                                <h4 class="font-pt">Pages</h4>
+                                <h2 class="font-pt">Pages</h2>
                             </div>
                             <ul class="footer-widget-menu">
                                 <li><a href="/">Accueil</a></li>
@@ -216,11 +247,11 @@
     </footer>
     <!-- Footer Area End -->
 
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/plugins.js"></script>
-    <script src="/js/active.js"></script>
+    <script src="/js/jquery/jquery-2.2.4.min.js" defer></script>
+    <script src="/js/popper.min.js" defer></script>
+    <script src="/js/bootstrap.min.js" defer></script>
+    <script src="/js/plugins.js" defer></script>
+    <script src="/js/active.js" defer></script>
 </body>
 
 </html>

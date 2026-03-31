@@ -23,6 +23,12 @@ class HomeController extends BaseController
             $articlesByCategory[$cat['id']] = $articleModel->getByCategory($cat['id'], 4);
         }
 
+        // LCP : image du premier slide du carousel
+        $firstSlide = $latestArticles[0] ?? null;
+        $lcpImage = $firstSlide
+            ? \App\Core\ImageHelper::url('bg-img/' . (($firstSlide['id'] % 4) + 1) . '.jpg', 1200, 580)
+            : null;
+
         $data = [
             'metaTitle'          => 'TheGazette - Iran Conflict News | Accueil',
             'metaDescription'    => 'Latest news and in-depth analysis on the Iran conflict, Middle East tensions and geopolitical crisis.',
@@ -31,6 +37,7 @@ class HomeController extends BaseController
             'allLatest'          => $allLatest,
             'categories'         => $categories,
             'articlesByCategory'  => $articlesByCategory,
+            'lcpImage'           => $lcpImage,
         ];
 
         return $this->render('home/index', $data);

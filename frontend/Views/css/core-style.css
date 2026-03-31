@@ -24,19 +24,13 @@
 :: 1.0 Import Web Fonts
 -------------------- */
 
-@import url('https://fonts.googleapis.com/css?family=PT+Serif:400,700|Roboto:300,400,500,700');
+/* Google Fonts loaded via <link> in layout.php for performance */
 
 /* ------------------
 :: 2.0 Import All CSS
 ------------------ */
 
-@import '../css/bootstrap.min.css';
-@import '../css/owl.carousel.css';
-@import '../css/font-awesome.min.css';
-@import '../css/pe-icon-7-stroke.css';
-@import '../css/magnific-popup.css';
-@import '../css/animate.css';
-@import '../css/jquery-ui.min.css';
+/* CSS files loaded via <link> in layout.php to avoid render-blocking @import chain */
 
 /* -------------------
 :: 3.0 Common/Base CSS
@@ -66,7 +60,7 @@ h6 {
 }
 
 p {
-    color: #9f9f9f;
+    color: #595959;
     font-size: 1em;
     line-height: 1.9;
     font-family: 'Roboto', sans-serif;
@@ -428,12 +422,15 @@ img {
 }
 
 .single-stock-report .stock-values span:last-child {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.single-stock-report .stock-index h4 {
+.single-stock-report .stock-index h4,
+.single-stock-report .stock-index .stock-index-value {
     color: #fff;
     margin-bottom: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
 .single-stock-report {
@@ -665,7 +662,8 @@ img {
     margin-bottom: 30px;
 }
 
-.widget-title h5 {
+.widget-title h5,
+.widget-title h2 {
     font-size: 18px;
     text-transform: uppercase;
     border-bottom: 1px solid #e0e0e0;
@@ -733,7 +731,8 @@ img {
     padding: 20px;
 }
 
-.breaking-news-heading h5 {
+.breaking-news-heading h5,
+.breaking-news-heading h3 {
     color: #fff;
     margin-bottom: 0;
     font-size: 18px;
@@ -769,7 +768,7 @@ img {
 .dont-miss-post-content span {
     font-size: 14px;
     font-style: italic;
-    color: #838383;
+    color: #595959;
 }
 
 .subscribe-form input,
@@ -813,7 +812,7 @@ img {
 }
 
 .gazette-post-date {
-    color: #838383;
+    color: #595959;
     font-style: italic;
     font-size: 14px;
     margin-bottom: 0;
@@ -846,7 +845,7 @@ img {
 }
 
 .post-share-btn-group a {
-    color: #d3d3d3;
+    color: #767676;
     font-size: 20px;
     padding: 0 10px;
     display: inline-block;
@@ -856,7 +855,8 @@ img {
     color: #ff0303;
 }
 
-.gazette-heading h4 {
+.gazette-heading h4,
+.gazette-heading h2 {
     text-transform: uppercase;
     letter-spacing: 1px;
     padding-bottom: 20px;
@@ -997,7 +997,7 @@ img {
 .gazette-single-catagory-post span {
     font-style: italic;
     font-size: 14px;
-    color: #9f9f9f;
+    color: #595959;
 }
 
 .gazette-single-catagory-post {
@@ -1219,7 +1219,12 @@ textarea.form-control {
     margin-top: 30px;
 }
 
-.team-member-designation-social-info h5 {
+.team-member-data h3 {
+    font-size: 1.5rem;
+}
+
+.team-member-designation-social-info h5,
+.team-member-designation-social-info p {
     font-size: 18px;
     font-style: italic;
     color: rgba(29, 29, 29, 0.75);
@@ -1229,7 +1234,7 @@ textarea.form-control {
     font-size: 14px;
     display: inline-block;
     padding: 0 3px;
-    color: #d3d3d3;
+    color: #767676;
 }
 
 .cta-content h2 {
@@ -1257,10 +1262,12 @@ textarea.form-control {
     margin-bottom: 30px;
 }
 
-.single-footer-widget .footer-widget-title h4 {
+.single-footer-widget .footer-widget-title h4,
+.single-footer-widget .footer-widget-title h2 {
     color: #fff;
     margin-bottom: 40px;
     font-weight: 400;
+    font-size: 1.5rem;
 }
 
 .single-footer-widget .footer-widget-menu li > a {

@@ -673,11 +673,17 @@ Le header `Vary: Accept-Encoding` (envoye par `BaseController.php`) signale aux 
 |---|---|---|
 | **URL Rewriting (.htaccess)** | `.htaccess` + `default.conf` + Router (`index.php`) | URLs propres, technologie PHP masquee, meilleur SEO |
 | **Cache pages HTML** | `BaseController.php` (60s) | Moins de requetes serveur |
-| **Cache assets statiques** | Nginx (7 jours) | CSS/JS/fonts telecharges une seule fois |
+| **Cache assets statiques** | Nginx (1 an, immutable) | CSS/JS/fonts telecharges une seule fois |
 | **Cache images redimensionnees** | Nginx (30 jours, immutable) | Images servies instantanement depuis le disque |
 | **Redimensionnement images** | `resize.php` + `ImageHelper.php` | Images adaptees a la taille d'affichage, poids reduit |
+| **Format WebP** | `resize.php` + `ImageHelper::tag()` (`<picture>`) | Images 25-35% plus legeres avec fallback automatique |
 | **Lazy loading** | `ImageHelper::tag()` (`loading="lazy"`) | Images hors ecran chargees a la demande |
-| **Attributs width/height** | `ImageHelper::tag()` | Evite le CLS (saut de page au chargement) |
+| **Attributs width/height** | `ImageHelper::tag()` + `layout.php` (logo, pub) | Evite le CLS (saut de page au chargement) |
+| **Preload LCP** | `layout.php` + controleurs (`$lcpImage`) | Image hero preloadee pour un LCP plus rapide |
+| **Preconnect Google Fonts** | `layout.php` (`<link rel="preconnect">`) | DNS/TLS initie plus tot pour les polices |
+| **font-display: swap** | Google Fonts URL + `@font-face` locaux | Texte visible immediatement pendant le chargement des polices |
+| **CSS sans @import** | `layout.php` (balises `<link>` directes) | Chargement parallele des CSS, pas de chaine waterfall |
+| **JS defer** | `layout.php` (`defer` sur les `<script>`) | Scripts ne bloquent plus le rendu de la page |
 | **Compression Gzip** | Nginx | CSS/JS transferes compresses (reduction ~70%) |
 | **`<title>` dynamique** | `layout.php` + controleurs | Titre unique par page, mot-cle present |
 | **`<meta description>`** | `layout.php` + controleurs | Description unique par page |
