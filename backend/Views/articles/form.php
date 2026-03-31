@@ -129,3 +129,22 @@ $errors = $errors ?? [];
     </form>
 </div>
 
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+tinymce.init({
+    selector: '#content',
+    height: 400,
+    menubar: true,
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+        'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image media | code fullscreen | help',
+    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.6; }',
+    branding: false,
+    promotion: false,
+    license_key: 'gpl'
+});
+</script>
+
