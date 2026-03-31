@@ -7,53 +7,68 @@ use BackOffice\Core\Helpers;
 $title = 'Utilisateurs';
 ?>
 <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div class="card-header">
         <div>
-            <h1 style="margin:0 0 6px;">Utilisateurs</h1>
-            <p class="muted" style="margin:0;">Comptes BackOffice (authentification).</p>
+            <h1>Utilisateurs</h1>
+            <p class="subtitle">Gérez les comptes d'accès au BackOffice</p>
         </div>
-        <a class="btn" href="/users/create">Créer un utilisateur</a>
+        <a class="btn" href="/users/create">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Créer un utilisateur
+        </a>
     </div>
 
     <?php if (!empty($success)): ?>
-        <div class="card" style="margin-top:16px;border-color:#bbf7d0;background:#f0fdf4;">
+        <div class="alert success" role="alert">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
             <?= Helpers::e((string)$success) ?>
         </div>
     <?php endif; ?>
     <?php if (!empty($error)): ?>
-        <div class="error" style="margin-top:16px;"><?= Helpers::e((string)$error) ?></div>
+        <div class="alert error" role="alert"><?= Helpers::e((string)$error) ?></div>
     <?php endif; ?>
 
-    <div style="overflow:auto;margin-top:16px;">
-        <table style="width:100%;border-collapse:collapse;">
+    <div class="table-wrapper">
+        <table>
             <thead>
             <tr>
-                <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Email</th>
-                <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Rôle</th>
-                <th style="text-align:right;padding:10px;border-bottom:1px solid #e5e7eb;">Actions</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">Rôle</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach (($items ?? []) as $it): ?>
                 <tr>
-                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;">
-                        <?= Helpers::e((string)$it['email']) ?>
-                        <?php if (Auth::id() === (int)$it['id']): ?>
-                            <span class="muted">(vous)</span>
-                        <?php endif; ?>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <div class="user-avatar" aria-hidden="true" style="width:36px;height:36px;font-size:14px;"><?= strtoupper(substr($it['email'] ?? 'U', 0, 1)) ?></div>
+                            <div>
+                                <strong><?= Helpers::e((string)$it['email']) ?></strong>
+                                <?php if (Auth::id() === (int)$it['id']): ?>
+                                    <span class="badge published" style="margin-left:8px;">Vous</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </td>
-                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;"><?= Helpers::e((string)$it['role']) ?></td>
-                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;white-space:nowrap;">
-                        <a class="btn secondary" href="/users/<?= (int)$it['id'] ?>/edit">Éditer</a>
-                        <form method="post" action="/users/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
-                            <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
-                            <button class="btn danger" type="submit" <?= (Auth::id() === (int)$it['id']) ? 'disabled' : '' ?> onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</button>
-                        </form>
+                    <td>
+                        <span class="badge <?= $it['role'] === 'admin' ? 'published' : 'draft' ?>">
+                            <?= Helpers::e(ucfirst((string)$it['role'])) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="btn secondary sm" href="/users/<?= (int)$it['id'] ?>/edit">Éditer</a>
+                            <form method="post" action="/users/<?= (int)$it['id'] ?>/delete">
+                                <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
+                                <button class="btn danger sm" type="submit" <?= (Auth::id() === (int)$it['id']) ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '' ?> onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
             <?php if (empty($items)): ?>
-                <tr><td colspan="3" class="muted" style="padding:12px;">Aucun utilisateur.</td></tr>
+                <tr><td colspan="3" class="muted" style="text-align:center;padding:32px;">Aucun utilisateur trouvé.</td></tr>
             <?php endif; ?>
             </tbody>
         </table>

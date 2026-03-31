@@ -1,8 +1,7 @@
 <?php
 // Variables : $article, $related
-$paragraphs = explode("\n\n", $article['content']);
-$firstParagraphs = array_slice($paragraphs, 0, 2);
-$lastParagraphs = array_slice($paragraphs, 2);
+// Le contenu est en HTML depuis TinyMCE, on l'affiche directement
+$content = $article['content'];
 ?>
 
 <section class="single-post-area">
@@ -27,10 +26,8 @@ $lastParagraphs = array_slice($paragraphs, 2);
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8">
-                    <div class="single-post-text">
-                        <?php foreach ($firstParagraphs as $p): ?>
-                            <p><?= nl2br(htmlspecialchars(trim($p))) ?></p>
-                        <?php endforeach; ?>
+                    <div class="single-post-text article-content">
+                        <?= $content ?>
                     </div>
                 </div>
                 <div class="col-12">
@@ -38,15 +35,6 @@ $lastParagraphs = array_slice($paragraphs, 2);
                         <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], 1110) ?>
                     </div>
                 </div>
-                <?php if (!empty($lastParagraphs)): ?>
-                <div class="col-12 col-md-8">
-                    <div class="single-post-text">
-                        <?php foreach ($lastParagraphs as $p): ?>
-                            <p><?= nl2br(htmlspecialchars(trim($p))) ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
 
                 <?php if (!empty($article['excerpt'])): ?>
                 <div class="col-12 col-md-10">
