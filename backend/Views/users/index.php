@@ -42,7 +42,6 @@ $title = 'Utilisateurs';
                 <tr>
                     <td>
                         <div style="display:flex;align-items:center;gap:12px;">
-                            <div class="user-avatar" aria-hidden="true" style="width:36px;height:36px;font-size:14px;"><?= strtoupper(substr($it['email'] ?? 'U', 0, 1)) ?></div>
                             <div>
                                 <strong><?= Helpers::e((string)$it['email']) ?></strong>
                                 <?php if (Auth::id() === (int)$it['id']): ?>

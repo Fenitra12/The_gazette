@@ -40,7 +40,6 @@ $title = 'Auteurs';
                 <tr>
                     <td>
                         <div style="display:flex;align-items:center;gap:12px;">
-                            <div class="user-avatar" aria-hidden="true" style="width:36px;height:36px;font-size:14px;"><?= strtoupper(substr($it['name'] ?? 'A', 0, 1)) ?></div>
                             <strong><?= Helpers::e((string)$it['name']) ?></strong>
                         </div>
                     </td>

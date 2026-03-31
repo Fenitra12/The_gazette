@@ -15,31 +15,30 @@ $pageTitle = $title . ' | The Gazette Admin';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Helpers::e($pageTitle) ?></title>
     <meta name="description" content="Administration du site The Gazette - Gestion des articles, catégories et utilisateurs">
-    <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#1e40af">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
         :root {
-            --primary: #1e40af;
-            --primary-hover: #1e3a8a;
+            --primary: #1d4ed8;
+            --primary-hover: #1e40af;
             --primary-light: #dbeafe;
-            --secondary: #475569;
-            --secondary-hover: #334155;
+            --secondary: #374151;
+            --secondary-hover: #1f2937;
             --danger: #dc2626;
             --danger-hover: #b91c1c;
-            --success: #16a34a;
+            --success: #15803d;
             --success-light: #dcfce7;
             --success-border: #86efac;
-            --warning: #f59e0b;
-            --bg-body: #f1f5f9;
+            --warning: #b45309;
+            --bg-body: #f8fafc;
             --bg-card: #ffffff;
             --bg-header: #0f172a;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-light: #f1f5f9;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --border: #d1d5db;
+            --border-light: #e5e7eb;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -58,8 +57,25 @@ $pageTitle = $title . ' | The Gazette Admin';
             background: var(--bg-body);
             color: var(--text-primary);
             line-height: 1.6;
-            font-size: 15px;
+            font-size: 16px;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: #fff;
+            padding: 8px 16px;
+            z-index: 1000;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            top: 0;
         }
 
         /* Header - Site Navigation */
@@ -167,16 +183,33 @@ $pageTitle = $title . ' | The Gazette Admin';
             font-size: 20px;
             font-weight: 600;
             margin: 0 0 4px;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 4px;
+            color: var(--text-primary);
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 15px;
             margin: 0;
         }
 
         .muted {
             color: var(--text-muted);
+        }
+
+        /* Links - ensure good contrast */
+        a {
+            color: var(--primary);
+        }
+
+        a:hover, a:focus {
+            color: var(--primary-hover);
         }
 
         /* Buttons */
@@ -434,6 +467,19 @@ $pageTitle = $title . ' | The Gazette Admin';
             margin-right: 8px;
         }
 
+        /* Visually hidden (for screen readers) */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         /* Stats cards for dashboard */
         .stats-grid {
             display: grid;
@@ -451,18 +497,29 @@ $pageTitle = $title . ' | The Gazette Admin';
         }
 
         .stat-card h3 {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin: 0 0 8px;
+            margin: 0 0 12px;
         }
 
         .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .stat-card .value a {
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-card .value a:hover {
+            text-decoration: underline;
         }
 
         /* Checkbox label */
@@ -599,6 +656,8 @@ $pageTitle = $title . ' | The Gazette Admin';
     </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
 <header class="site-header" role="banner">
     <a href="/" class="logo" aria-label="Accueil BackOffice">BackOffice</a>
     <?php if (Auth::check()): ?>
@@ -620,7 +679,7 @@ $pageTitle = $title . ' | The Gazette Admin';
     <?php endif; ?>
 </header>
 
-<main class="container" role="main">
+<main id="main-content" class="container" role="main">
     <?= $content ?? '' ?>
 </main>
 </body>
