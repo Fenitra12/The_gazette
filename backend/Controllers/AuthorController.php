@@ -13,7 +13,8 @@ final class AuthorController extends BaseController
      */
     public function index(array $params = []): void
     {
-        $items = (new Author())->all();
+        $search = trim($_GET['search'] ?? '');
+        $items = (new Author())->all($search);
         $this->render('authors/index', [
             'csrf' => Csrf::token(),
             'items' => $items,

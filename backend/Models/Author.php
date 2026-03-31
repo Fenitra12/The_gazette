@@ -6,11 +6,17 @@ namespace BackOffice\Models;
 final class Author extends BaseModel
 {
     /**
+     * @param string $search
      * @return array<int, array{id:int,name:string}>
      */
-    public function all(): array
+    public function all(string $search = ''): array
     {
-        $stmt = $this->db->query('SELECT id, name FROM authors ORDER BY name ASC');
+        if ($search !== '') {
+            $stmt = $this->db->prepare('SELECT id, name FROM authors WHERE name ILIKE :search ORDER BY name ASC');
+            $stmt->execute(['search' => '%' . $search . '%']);
+        } else {
+            $stmt = $this->db->query('SELECT id, name FROM authors ORDER BY name ASC');
+        }
         return $stmt->fetchAll() ?: [];
     }
 

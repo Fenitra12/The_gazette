@@ -19,9 +19,16 @@ final class ArticleController extends BaseController
         $limit = 20;
         $offset = ($page - 1) * $limit;
 
+        // Filtres
+        $filters = [
+            'search' => trim($_GET['search'] ?? ''),
+            'status' => trim($_GET['status'] ?? ''),
+            'category' => trim($_GET['category'] ?? ''),
+        ];
+
         $model = new Article();
-        $items = $model->paginate($limit, $offset);
-        $total = $model->countAll();
+        $items = $model->paginate($limit, $offset, $filters);
+        $total = $model->countAll($filters);
         $pages = (int)max(1, (int)ceil($total / $limit));
 
         $this->render('articles/index', [
@@ -29,6 +36,7 @@ final class ArticleController extends BaseController
             'items' => $items,
             'page' => $page,
             'pages' => $pages,
+            'categories' => (new Category())->all(),
             'success' => $this->flash('success'),
             'error' => $this->flash('error'),
         ]);

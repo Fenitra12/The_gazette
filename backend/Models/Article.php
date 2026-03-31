@@ -8,28 +8,78 @@ use PDO;
 final class Article extends BaseModel
 {
     /**
+     * @param array<string,mixed> $filters
      * @return array<int, array<string,mixed>>
      */
-    public function paginate(int $limit = 20, int $offset = 0): array
+    public function paginate(int $limit = 20, int $offset = 0, array $filters = []): array
     {
-        $stmt = $this->db->prepare(
-            'SELECT a.id, a.title, a.slug, a.status, a.views, a.published_at,
-                    c.name AS category_name, au.name AS author_name
-             FROM articles a
-             JOIN categories c ON c.id = a.category_id
-             JOIN authors au ON au.id = a.author_id
-             ORDER BY a.published_at DESC NULLS LAST, a.id DESC
-             LIMIT :limit OFFSET :offset'
-        );
+        $where = [];
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $where[] = '(a.title ILIKE :search OR a.slug ILIKE :search)';
+            $params['search'] = '%' . $filters['search'] . '%';
+        }
+
+        if (!empty($filters['status'])) {
+            $where[] = 'a.status = :status';
+            $params['status'] = $filters['status'];
+        }
+
+        if (!empty($filters['category'])) {
+            $where[] = 'a.category_id = :category';
+            $params['category'] = (int)$filters['category'];
+        }
+
+        $whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+        $sql = "SELECT a.id, a.title, a.slug, a.status, a.views, a.published_at,
+                       c.name AS category_name, au.name AS author_name
+                FROM articles a
+                JOIN categories c ON c.id = a.category_id
+                JOIN authors au ON au.id = a.author_id
+                {$whereClause}
+                ORDER BY a.published_at DESC NULLS LAST, a.id DESC
+                LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
         $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue('offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll() ?: [];
     }
 
-    public function countAll(): int
+    /**
+     * @param array<string,mixed> $filters
+     */
+    public function countAll(array $filters = []): int
     {
-        return (int)$this->db->query('SELECT COUNT(*) AS cnt FROM articles')->fetchColumn();
+        $where = [];
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $where[] = '(title ILIKE :search OR slug ILIKE :search)';
+            $params['search'] = '%' . $filters['search'] . '%';
+        }
+
+        if (!empty($filters['status'])) {
+            $where[] = 'status = :status';
+            $params['status'] = $filters['status'];
+        }
+
+        if (!empty($filters['category'])) {
+            $where[] = 'category_id = :category';
+            $params['category'] = (int)$filters['category'];
+        }
+
+        $whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS cnt FROM articles {$whereClause}");
+        $stmt->execute($params);
+        return (int)$stmt->fetchColumn();
     }
 
     /**
