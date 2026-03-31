@@ -71,7 +71,7 @@
             <div class="<?= $colClass ?>">
                 <div class="gazette-welcome-post <?= $i >= 5 ? 'd-md-flex align-items-center' : '' ?>">
                     <div class="blog-post-thumbnail <?= $i >= 5 ? '' : 'my-5' ?>">
-                        <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], ($i < 3 ? 350 : 540)) ?>
+                        <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], ($i < 3 ? 350 : 540), 0, $i !== 0) ?>
                     </div>
                     <div class="<?= $i >= 5 ? 'welcome-post-contents ml-30' : '' ?>">
                         <div class="gazette-post-tag">

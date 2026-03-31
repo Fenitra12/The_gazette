@@ -9,8 +9,13 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
 
 <!-- Welcome Blog Slide Area Start -->
 <section class="welcome-blog-post-slide owl-carousel">
-    <?php foreach ($sliderArticles as $slide): ?>
-    <div class="single-blog-post-slide bg-img background-overlay-5" style="background-image: url(<?= resized('bg-img/' . (($slide['id'] % 4) + 1) . '.jpg', 1200, 580) ?>);">
+    <?php foreach ($sliderArticles as $slide): 
+        $isFirst = ($slide === reset($sliderArticles));
+    ?>
+    <div class="single-blog-post-slide background-overlay-5">
+        <div class="slide-media">
+            <?= img('bg-img/' . (($slide['id'] % 4) + 1) . '.jpg', $slide['title'], 800, 600, !$isFirst) ?>
+        </div>
         <div class="single-blog-post-content">
             <div class="tags">
                 <a href="/categorie/<?= htmlspecialchars($slide['category_slug']) ?>"><?= htmlspecialchars($slide['category_name']) ?></a>
@@ -140,7 +145,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                             <h2>Advert</h2>
                         </div>
                         <div class="advert-thumb mb-30">
-                            <a href="#" aria-label="Advertisement"><img src="/img/bg-img/add.png" alt="Advertisement" width="350" height="350" loading="lazy"></a>
+                            <a href="#" aria-label="Advertisement"><picture><source srcset="<?= \App\Core\ImageHelper::webpUrl('bg-img/add.png', 350, 350) ?>" type="image/webp"><img src="/img/bg-img/add.png" alt="Advertisement" width="350" height="350" loading="lazy"></picture></a>
                         </div>
                     </div>
 

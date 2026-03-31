@@ -5,11 +5,12 @@
  * Appele par Nginx via @resize quand l'image en cache n'existe pas encore.
  *
  * URL attendue : /img/cache/{width}x{height}/{subdir}/{filename}
+ * subdir accepte : bg-img, blog-img, core-img, uploads
  */
 
 // Parse l'URI
 $uri = $_SERVER['REQUEST_URI'] ?? '';
-if (!preg_match('#^/img/cache/(\d+)x(\d+)/(bg-img|blog-img|core-img)/([a-zA-Z0-9._-]+\.(jpg|jpeg|png|gif|webp))$#', $uri, $matches)) {
+if (!preg_match('#^/img/cache/(\d+)x(\d+)/(bg-img|blog-img|core-img|uploads)/([a-zA-Z0-9._-]+\.(jpg|jpeg|png|gif|webp))$#', $uri, $matches)) {
     http_response_code(404);
     exit('Not found');
 }
@@ -28,7 +29,14 @@ if ($width <= 0 || $width > 2000 || $height < 0 || $height > 2000) {
 }
 
 // Chemin source (pour les requetes WebP, trouver le fichier original jpg/png/gif)
-$sourceDir = '/var/www/html/frontend/Views/img';
+$frontendImageDir = '/var/www/html/frontend/Views/img';
+$backendUploadDir = '/var/www/html/backend/public/uploads';
+$cacheBaseDir = $frontendImageDir . '/cache';
+
+$sourceDir = $frontendImageDir;
+if ($subdir === 'uploads') {
+    $sourceDir = $backendUploadDir;
+}
 if ($requestedWebp) {
     $originalFilename = null;
     $baseName = pathinfo($filename, PATHINFO_FILENAME);
@@ -45,7 +53,9 @@ if ($requestedWebp) {
         exit('Source image not found');
     }
 } else {
-    $sourcePath = $sourceDir . '/' . $subdir . '/' . $filename;
+    $sourcePath = $subdir === 'uploads'
+        ? $sourceDir . '/' . $filename
+        : $sourceDir . '/' . $subdir . '/' . $filename;
     if (!file_exists($sourcePath)) {
         http_response_code(404);
         exit('Source image not found');
@@ -111,7 +121,7 @@ if ($mimeType === 'image/png') {
 imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
 
 // Creer le repertoire cache
-$cacheDir = $sourceDir . '/cache/' . $width . 'x' . $height . '/' . $subdir;
+$cacheDir = $cacheBaseDir . '/' . $width . 'x' . $height . '/' . $subdir;
 if (!is_dir($cacheDir)) {
     mkdir($cacheDir, 0755, true);
 }
@@ -123,7 +133,7 @@ $useWebp = $requestedWebp || ($acceptWebp && function_exists('imagewebp') && $mi
 if ($useWebp && function_exists('imagewebp')) {
     $webpFilename = pathinfo($requestedWebp ? $filename : $filename, PATHINFO_FILENAME) . '.webp';
     $cachePath = $cacheDir . '/' . $webpFilename;
-    imagewebp($resized, $cachePath, 80);
+    imagewebp($resized, $cachePath, 65);
     $outputMime = 'image/webp';
 } else {
     $cachePath = $cacheDir . '/' . $filename;
@@ -149,8 +159,8 @@ imagedestroy($resized);
 // Servir le fichier
 header('Content-Type: ' . $outputMime);
 header('Content-Length: ' . filesize($cachePath));
-header('Cache-Control: public, max-age=2592000, immutable');
-header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 2592000) . ' GMT');
+header('Cache-Control: public, max-age=31536000, immutable');
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
 header('Vary: Accept');
 
 readfile($cachePath);

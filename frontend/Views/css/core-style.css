@@ -382,6 +382,11 @@ img {
     width: 100%;
 }
 
+/* Show first ticker item immediately to prevent CLS */
+#breakingNewsTicker.ticker ul li:first-child {
+    display: block;
+}
+
 #breakingNewsTicker.ticker ul li a {
     color: #fff;
     font-size: 14px;
@@ -406,6 +411,11 @@ img {
     display: none;
     width: 100%;
     text-align: right;
+}
+
+/* Show first ticker item immediately to prevent CLS */
+#stockNewsTicker.ticker ul li:first-child {
+    display: block;
 }
 
 #stockNewsTicker.ticker ul li a {
@@ -556,6 +566,54 @@ img {
     height: 580px;
     position: relative;
     z-index: 1;
+    background-position: center center;
+    background-size: cover;
+}
+
+.welcome-blog-post-slide .single-blog-post-slide .slide-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.welcome-blog-post-slide .single-blog-post-slide .slide-media picture,
+.welcome-blog-post-slide .single-blog-post-slide .slide-media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Prevent layout shift: hide extra slides before owl-carousel JS init */
+.welcome-blog-post-slide {
+    max-height: 580px;
+    overflow: hidden;
+    contain: layout style;
+}
+
+/* Override owl-carousel display:none for carousels before JS init to prevent CLS */
+.welcome-blog-post-slide.owl-carousel {
+    display: block;
+}
+
+.editorial-post-slides.owl-carousel {
+    display: block;
+}
+
+/* Prevent opacity flash during owl-carousel loading phase */
+.welcome-blog-post-slide.owl-carousel.owl-loading,
+.editorial-post-slides.owl-carousel.owl-loading {
+    opacity: 1;
+}
+
+/* Before owl-carousel JS init, only show the first slide */
+.welcome-blog-post-slide:not(.owl-loaded) .single-blog-post-slide:not(:first-child) {
+    display: none;
 }
 
 .welcome-blog-post-slide .single-blog-post-slide .single-blog-post-content {
@@ -605,6 +663,7 @@ img {
     cursor: pointer;
     z-index: 1;
     height: 65px;
+    contain: layout style;
 }
 
 .marquee,
@@ -990,6 +1049,20 @@ img {
     width: 9px;
     height: 9px;
     background-color: rgba(255, 255, 255, 1);
+}
+
+.editorial-post-slides {
+    min-height: 350px;
+    overflow: hidden;
+}
+
+/* Before owl-carousel JS init, only show the first editorial slide */
+.editorial-post-slides:not(.owl-loaded) .editorial-post-single-slide:not(:first-child) {
+    display: none;
+}
+
+.editorial-post-slides:not(.owl-loaded) {
+    min-height: 350px;
 }
 
 /* :: 11.0 Catagory Area CSS */

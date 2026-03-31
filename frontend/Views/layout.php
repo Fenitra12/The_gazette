@@ -14,36 +14,41 @@
 
     <link rel="icon" href="/img/core-img/favicon.ico">
 
-    <!-- Preconnect Google Fonts for faster DNS/TLS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 1) PRELOAD LCP IMAGE FIRST - before any CSS so browser starts download immediately -->
+    <?php if (!empty($lcpImageUrl)): ?>
+    <link rel="preload" as="image" href="<?= htmlspecialchars($lcpImageUrl) ?>" fetchpriority="high">
+    <?php endif; ?>
 
-    <!-- Critical CSS (render-blocking, needed for first paint) -->
+    <!-- 2) Critical CSS only (render-blocking, absolute minimum for first paint) -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/core-style.css">
     <link rel="stylesheet" href="/css/responsive.css">
 
-    <!-- Non-critical CSS loaded async (not needed for first paint) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Roboto:300,400,500,700&display=swap" media="print" onload="this.media='all'">
+    <!-- 3) Inline critical CSS for hero slider to avoid dependency on owl.carousel.css -->
+    <style>
+    .owl-carousel{display:block;-webkit-tap-highlight-color:transparent;position:relative;z-index:1}
+    .owl-carousel .owl-stage-outer{overflow:hidden;position:relative}
+    .owl-carousel .owl-stage{position:relative;display:flex}
+    .owl-carousel .owl-item{min-height:1px;position:relative;float:left;width:100%}
+    </style>
+
+    <!-- 4) Non-critical CSS: fonts, icons, animations loaded async -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/css/owl.carousel.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/google-fonts.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/css/pe-icon-7-stroke.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/css/magnific-popup.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/css/animate.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/css/jquery-ui.min.css" media="print" onload="this.media='all'">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Roboto:300,400,500,700&display=swap">
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
         <link rel="stylesheet" href="/css/owl.carousel.css">
+        <link rel="stylesheet" href="/css/google-fonts.css">
         <link rel="stylesheet" href="/css/pe-icon-7-stroke.css">
         <link rel="stylesheet" href="/css/magnific-popup.css">
         <link rel="stylesheet" href="/css/animate.css">
         <link rel="stylesheet" href="/css/jquery-ui.min.css">
     </noscript>
-
-    <!-- Preload LCP image if provided by the controller -->
-    <?php if (!empty($lcpImage)): ?>
-    <link rel="preload" as="image" href="<?= htmlspecialchars($lcpImage) ?>">
-    <?php endif; ?>
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -136,7 +141,7 @@
                     </div>
                     <div class="col-12 col-md-8">
                         <div class="header-advert-area">
-                            <a href="#" aria-label="Advertisement"><img src="/img/bg-img/top-advert.png" alt="Advertisement" width="728" height="90" loading="lazy"></a>
+                            <a href="#" aria-label="Advertisement"><picture><source srcset="<?= \App\Core\ImageHelper::webpUrl('bg-img/top-advert.png', 728, 90) ?>" type="image/webp"><img src="/img/bg-img/top-advert.png" alt="Advertisement" width="728" height="90"></picture></a>
                         </div>
                     </div>
                 </div>
@@ -247,7 +252,7 @@
     </footer>
     <!-- Footer Area End -->
 
-    <script src="/js/jquery/jquery-2.2.4.min.js" defer></script>
+    <script src="/js/jquery/jquery-3.7.1.min.js" defer></script>
     <script src="/js/popper.min.js" defer></script>
     <script src="/js/bootstrap.min.js" defer></script>
     <script src="/js/plugins.js" defer></script>

@@ -23,11 +23,14 @@ class HomeController extends BaseController
             $articlesByCategory[$cat['id']] = $articleModel->getByCategory($cat['id'], 4);
         }
 
-        // LCP : image du premier slide du carousel
+        // LCP : preload the EXACT same image used in the first slide
+        // Single 800x600 version = perfect match for preload + HTML
         $firstSlide = $latestArticles[0] ?? null;
-        $lcpImage = $firstSlide
-            ? \App\Core\ImageHelper::url('bg-img/' . (($firstSlide['id'] % 4) + 1) . '.jpg', 1200, 580)
-            : null;
+        $lcpImageUrl = null;
+        if ($firstSlide) {
+            $imagePath = 'bg-img/' . (($firstSlide['id'] % 4) + 1) . '.jpg';
+            $lcpImageUrl = \App\Core\ImageHelper::url($imagePath, 800, 600);
+        }
 
         $data = [
             'metaTitle'          => 'TheGazette - Iran Conflict News | Accueil',
@@ -37,7 +40,7 @@ class HomeController extends BaseController
             'allLatest'          => $allLatest,
             'categories'         => $categories,
             'articlesByCategory'  => $articlesByCategory,
-            'lcpImage'           => $lcpImage,
+            'lcpImageUrl'        => $lcpImageUrl,
         ];
 
         return $this->render('home/index', $data);
