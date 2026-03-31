@@ -99,7 +99,7 @@ Negotiations focus on de-escalation strategies, economic sanctions, and long-ter
 Experts highlight that diplomatic engagement is essential in resolving the Iran conflict. Middle East tensions can only be reduced through dialogue, cooperation, and sustained political commitment.
 
 The outcome of these diplomatic talks will significantly impact the future of the Iran conflict and global geopolitical stability.',
-'diplomacy1.jpg',
+'blog-img/1.jpg',
 1, 2,
 false, 'published',
 'Diplomatic Talks Global Powers',
@@ -121,7 +121,7 @@ International organizations are calling for urgent intervention to address the h
 Experts emphasize that resolving the Iran conflict is critical not only for political stability but also for humanitarian protection. The geopolitical crisis continues to highlight the importance of global cooperation.
 
 The civilian impact of the Iran conflict remains a key concern for policymakers and humanitarian agencies worldwide.',
-'civilian1.jpg',
+'blog-img/2.jpg',
 2, 4,
 false, 'published',
 'Humanitarian Crisis Update',
@@ -143,7 +143,7 @@ The geopolitical crisis linked to the Iran conflict requires careful balancing b
 Experts argue that sanctions may affect both regional economies and global markets. The Iran conflict remains a central factor in shaping these strategies.
 
 The effectiveness of sanctions in resolving the Iran conflict remains uncertain, highlighting the complexity of the geopolitical crisis.',
-'sanctions1.jpg',
+'blog-img/3.jpg',
 1, 5,
 false, 'published',
 'Sanctions Political News',
@@ -165,7 +165,7 @@ Coverage of Middle East tensions highlights the complexity of the Iran conflict 
 The influence of media on the Iran conflict cannot be underestimated. It shapes opinions, informs decisions, and contributes to international dialogue.
 
 As the geopolitical crisis evolves, media coverage will remain essential in tracking the Iran conflict and Middle East tensions.',
-'media1.jpg',
+'blog-img/4.jpg',
 4, 2,
 false, 'published',
 'Media Coverage Iran Conflict',
@@ -187,7 +187,7 @@ The geopolitical crisis has led to increased collaboration among allies and enha
 Experts note that evolving military strategies reflect the uncertainty of the Iran conflict. Middle East tensions require continuous adaptation.
 
 The future of military dynamics in the region will depend on how the Iran conflict develops and how geopolitical risks are managed.',
-'military1.jpg',
+'blog-img/5.jpg',
 5, 3,
 false, 'published',
 'Military Strategy Middle East',
@@ -209,7 +209,7 @@ The geopolitical crisis highlights the interconnected nature of global trade sys
 Experts warn that prolonged Middle East tensions could lead to sustained disruptions. The Iran conflict remains a key factor in global economic stability.
 
 Addressing trade challenges will require coordinated efforts to resolve the geopolitical crisis.',
-'trade1.jpg',
+'blog-img/6.jpg',
 3, 2,
 false, 'published',
 'Global Trade Impact',
@@ -231,7 +231,7 @@ Experts highlight the growing importance of cybersecurity in managing geopolitic
 The Iran conflict demonstrates how modern conflicts extend beyond physical boundaries. Cybersecurity is becoming a central concern.
 
 As the geopolitical crisis evolves, addressing cyber threats linked to the Iran conflict will be essential.',
-'cyber1.jpg',
+'blog-img/7.jpg',
 6, 1,
 false, 'published',
 'Cybersecurity Conflict Risks',
@@ -251,7 +251,7 @@ The geopolitical crisis is creating humanitarian challenges as countries manage 
 Experts emphasize the need for coordinated responses to address displacement caused by Middle East tensions.
 
 The Iran conflict highlights the human cost of geopolitical crises and the importance of global cooperation.',
-'refugee1.jpg',
+'blog-img/8.jpg',
 2, 3,
 false, 'published',
 'Refugee Crisis Middle East',
@@ -269,7 +269,7 @@ false, 'published',
 The geopolitical crisis has prompted increased military spending and strategic investments. The Iran conflict is a key driver.
 
 Experts note that defense budgets reflect broader geopolitical concerns and security priorities.',
-'defense1.jpg',
+'blog-img/9.jpg',
 5, 4,
 false, 'published',
 'Defense Spending Global',
@@ -287,7 +287,7 @@ false, 'published',
 The geopolitical crisis is creating challenges for airlines and passengers. The Iran conflict remains central.
 
 Travel disruptions highlight the broader impact of geopolitical tensions on global mobility.',
-'air1.jpg',
+'blog-img/10.jpg',
 3, 1,
 false, 'published',
 'Air Travel Disruptions',
@@ -303,7 +303,7 @@ false, 'published',
 'Technology markets are reacting to the Iran conflict escalation as Middle East tensions influence innovation and investment.
 
 The geopolitical crisis is affecting supply chains and digital infrastructure. The Iran conflict is shaping market trends.',
-'tech1.jpg',
+'blog-img/11.jpg',
 6, 2,
 false, 'published',
 'Tech Market Impact',
@@ -319,7 +319,7 @@ false, 'published',
 'The Iran conflict escalation is encouraging stronger regional alliances as Middle East tensions persist.
 
 The geopolitical crisis is reshaping diplomatic relationships. The Iran conflict plays a key role in alliance formation.',
-'alliance1.jpg',
+'blog-img/12.jpg',
 1, 3,
 false, 'published',
 'Regional Alliances News',
@@ -335,7 +335,7 @@ false, 'published',
 'The Iran conflict escalation threatens key shipping routes as Middle East tensions rise.
 
 The geopolitical crisis is impacting maritime trade and global logistics. The Iran conflict is central to these risks.',
-'shipping1.jpg',
+'blog-img/13.jpg',
 3, 4,
 false, 'published',
 'Shipping Route Risks',
@@ -351,7 +351,7 @@ false, 'published',
 'The Iran conflict escalation is forcing economists to revise global forecasts as Middle East tensions persist.
 
 The geopolitical crisis is influencing growth projections, inflation, and policy decisions. The Iran conflict remains key.',
-'economy1.jpg',
+'blog-img/14.jpg',
 3, 5,
 false, 'published',
 'Economic Forecast Update',
@@ -369,7 +369,7 @@ false, 'published',
 The geopolitical crisis has increased humanitarian needs. The Iran conflict is driving global support initiatives.
 
 Organizations are mobilizing resources to address the impact of the conflict and support affected populations.',
-'aid1.jpg',
+'blog-img/15.jpg',
 2, 1,
 false, 'published',
 'International Aid News',

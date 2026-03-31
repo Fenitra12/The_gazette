@@ -5,12 +5,26 @@ $featuredArticle = $popularArticles[0] ?? null;
 $todayPopular = array_slice($popularArticles, 1, 2);
 $sidebarBreaking = array_slice($allLatest, 0, 2);
 $sidebarDontMiss = array_slice($allLatest, 2, 3);
+
+$getImagePath = function (array $item, int $fallbackModulo, string $fallbackDir): string {
+    $file = trim((string)($item['featured_image'] ?? ''));
+    if ($file !== '') {
+        return strpos($file, '/') !== false ? $file : 'blog-img/' . $file;
+    }
+
+    return $fallbackDir . '/' . (($item['id'] % $fallbackModulo) + 1) . '.jpg';
+};
 ?>
 
 <!-- Welcome Blog Slide Area Start -->
 <section class="welcome-blog-post-slide owl-carousel">
-    <?php foreach ($sliderArticles as $slide): ?>
-    <div class="single-blog-post-slide bg-img background-overlay-5" style="background-image: url(<?= resized('bg-img/' . (($slide['id'] % 4) + 1) . '.jpg', 1200, 580) ?>);">
+    <?php foreach ($sliderArticles as $slide):
+        $isFirst = ($slide === reset($sliderArticles));
+    ?>
+    <div class="single-blog-post-slide background-overlay-5">
+        <div class="slide-media">
+            <?= img($getImagePath($slide, 4, 'bg-img'), $slide['title'], 1200, 580, !$isFirst) ?>
+        </div>
         <div class="single-blog-post-content">
             <div class="tags">
                 <a href="/categorie/<?= htmlspecialchars($slide['category_slug']) ?>"><?= htmlspecialchars($slide['category_name']) ?></a>
@@ -55,7 +69,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <h1 class="font-pt"><?= htmlspecialchars($featuredArticle['title']) ?></h1>
                     <p class="gazette-post-date"><?= date('F d, Y', strtotime($featuredArticle['published_at'])) ?></p>
                     <div class="blog-post-thumbnail my-5">
-                        <?= img('blog-img/' . (($featuredArticle['id'] % 25) + 1) . '.jpg', $featuredArticle['title'], 850, 0, false) ?>
+                        <?= img($getImagePath($featuredArticle, 25, 'blog-img'), $featuredArticle['title'], 850, 567, false) ?>
                     </div>
                     <p><?= htmlspecialchars($featuredArticle['excerpt']) ?></p>
                     <div class="post-continue-reading-share d-sm-flex align-items-center justify-content-between mt-30">
@@ -80,7 +94,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                     <?php foreach ($todayPopular as $tp): ?>
                     <div class="gazette-single-todays-post d-md-flex align-items-start mb-50">
                         <div class="todays-post-thumb">
-                            <?= img('blog-img/' . (($tp['id'] % 25) + 1) . '.jpg', $tp['title'], 250) ?>
+                            <?= img($getImagePath($tp, 25, 'blog-img'), $tp['title'], 250, 170) ?>
                         </div>
                         <div class="todays-post-content">
                             <div class="gazette-post-tag">
@@ -105,7 +119,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         </div>
                         <?php foreach ($sidebarBreaking as $bn): ?>
                         <div class="single-breaking-news-widget">
-                            <?= img('blog-img/' . (($bn['id'] % 25) + 1) . '.jpg', $bn['title'], 270) ?>
+                            <?= img($getImagePath($bn, 25, 'blog-img'), $bn['title'], 270, 180) ?>
                             <div class="breakingnews-title">
                                 <p>breaking news</p>
                             </div>
@@ -124,7 +138,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         <?php foreach ($sidebarDontMiss as $dm): ?>
                         <div class="single-dont-miss-post d-flex mb-30">
                             <div class="dont-miss-post-thumb">
-                                <?= img('blog-img/' . (($dm['id'] % 25) + 1) . '.jpg', $dm['title'], 70, 70) ?>
+                                <?= img($getImagePath($dm, 25, 'blog-img'), $dm['title'], 70, 70) ?>
                             </div>
                             <div class="dont-miss-post-content">
                                 <a href="/article/<?= htmlspecialchars($dm['slug']) ?>" class="font-pt"><?= htmlspecialchars($dm['title']) ?></a>
@@ -177,7 +191,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         <div class="gazette-single-catagory-post">
                             <?php if ($j === 0): ?>
                             <div class="single-catagory-post-thumb mb-15">
-                                <?= img('blog-img/' . (($cArticle['id'] % 25) + 1) . '.jpg', $cArticle['title'], 350) ?>
+                                <?= img($getImagePath($cArticle, 25, 'blog-img'), $cArticle['title'], 350, 233) ?>
                             </div>
                             <div class="gazette-post-tag">
                                 <a href="/categorie/<?= htmlspecialchars($cat['slug']) ?>"><?= htmlspecialchars($cat['name']) ?></a>
@@ -207,7 +221,7 @@ $sidebarDontMiss = array_slice($allLatest, 2, 3);
                         <div class="row">
                             <div class="col-12 col-md-5">
                                 <div class="editorial-post-thumb">
-                                    <?= img('blog-img/' . (($editorial['id'] % 25) + 1) . '.jpg', $editorial['title'], 400) ?>
+                                    <?= img($getImagePath($editorial, 25, 'blog-img'), $editorial['title'], 400, 267) ?>
                                 </div>
                             </div>
                             <div class="col-12 col-md-7">

@@ -23,6 +23,19 @@ class HomeController extends BaseController
             $articlesByCategory[$cat['id']] = $articleModel->getByCategory($cat['id'], 4);
         }
 
+        $firstSlide = $latestArticles[0] ?? null;
+        $lcpImageUrl = null;
+        if ($firstSlide) {
+            $file = trim((string)($firstSlide['featured_image'] ?? ''));
+            if ($file !== '') {
+                $imagePath = strpos($file, '/') !== false ? $file : 'blog-img/' . $file;
+            } else {
+                $imagePath = 'bg-img/' . (($firstSlide['id'] % 4) + 1) . '.jpg';
+            }
+
+            $lcpImageUrl = \App\Core\ImageHelper::url($imagePath, 1200, 580);
+        }
+
         $data = [
             'metaTitle'          => 'TheGazette - Iran Conflict News | Accueil',
             'metaDescription'    => 'Latest news and in-depth analysis on the Iran conflict, Middle East tensions and geopolitical crisis.',
@@ -31,6 +44,7 @@ class HomeController extends BaseController
             'allLatest'          => $allLatest,
             'categories'         => $categories,
             'articlesByCategory'  => $articlesByCategory,
+            'lcpImageUrl'        => $lcpImageUrl,
         ];
 
         return $this->render('home/index', $data);

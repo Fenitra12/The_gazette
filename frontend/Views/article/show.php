@@ -2,11 +2,22 @@
 // Variables : $article, $related
 // Le contenu est en HTML depuis TinyMCE, on l'affiche directement
 $content = $article['content'];
+
+$getImagePath = function (array $item, int $fallbackModulo, string $fallbackDir): string {
+    $file = trim((string)($item['featured_image'] ?? ''));
+    if ($file !== '') {
+        return strpos($file, '/') !== false ? $file : 'blog-img/' . $file;
+    }
+
+    return $fallbackDir . '/' . (($item['id'] % $fallbackModulo) + 1) . '.jpg';
+};
+
+$headerImage = $getImagePath($article, 4, 'bg-img');
 ?>
 
 <section class="single-post-area">
     <!-- Single Post Title -->
-    <div class="single-post-title bg-img background-overlay" style="background-image: url(<?= resized('bg-img/' . (($article['id'] % 4) + 1) . '.jpg', 1200, 580) ?>);">
+    <div class="single-post-title bg-img background-overlay" style="background-image: url(<?= resized($headerImage, 1200, 580) ?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-end">
                 <div class="col-12">
@@ -32,7 +43,7 @@ $content = $article['content'];
                 </div>
                 <div class="col-12">
                     <div class="single-post-thumb">
-                        <?= img('blog-img/' . (($article['id'] % 25) + 1) . '.jpg', $article['title'], 1110) ?>
+                        <?= img($getImagePath($article, 25, 'blog-img'), $article['title'], 1110, 740) ?>
                     </div>
                 </div>
 
@@ -44,6 +55,7 @@ $content = $article['content'];
                         </blockquote>
                     </div>
                 </div>
+
                 <?php endif; ?>
 
                 <!-- Post meta -->
@@ -70,15 +82,12 @@ $content = $article['content'];
 <!-- Related Articles -->
 <section class="gazette-catagory-posts-area section_padding_100 bg-gray">
     <div class="container">
-        <div class="gazette-heading">
-            <h4>Related Articles</h4>
-        </div>
         <div class="row">
             <?php foreach ($related as $rel): ?>
             <div class="col-12 col-md-4">
                 <div class="gazette-single-catagory-post">
                     <div class="single-catagory-post-thumb mb-15">
-                        <?= img('blog-img/' . (($rel['id'] % 25) + 1) . '.jpg', $rel['title'], 350) ?>
+                        <?= img($getImagePath($rel, 25, 'blog-img'), $rel['title'], 350, 233) ?>
                     </div>
                     <div class="gazette-post-tag">
                         <a href="/categorie/<?= htmlspecialchars($rel['category_slug']) ?>"><?= htmlspecialchars($rel['category_name']) ?></a>

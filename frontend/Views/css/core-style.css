@@ -561,6 +561,25 @@ img {
     z-index: 1;
 }
 
+.welcome-blog-post-slide .single-blog-post-slide .slide-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.welcome-blog-post-slide .single-blog-post-slide .slide-media picture,
+.welcome-blog-post-slide .single-blog-post-slide .slide-media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
 .welcome-blog-post-slide .single-blog-post-slide .single-blog-post-content {
     position: absolute;
     top: 40px;

@@ -299,7 +299,7 @@ final class ArticleController extends BaseController
             return '__ERROR__:Impossible d\'enregistrer l\'image.';
         }
 
-        return $filename;
+        return 'uploads/' . $filename;
     }
 
     /**
