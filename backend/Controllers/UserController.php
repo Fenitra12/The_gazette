@@ -14,7 +14,9 @@ final class UserController extends BaseController
      */
     public function index(array $params = []): void
     {
-        $items = (new User())->all();
+        $search = trim($_GET['search'] ?? '');
+        $role = trim($_GET['role'] ?? '');
+        $items = (new User())->all($search, $role);
         $this->render('users/index', [
             'csrf' => Csrf::token(),
             'items' => $items,

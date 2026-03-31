@@ -17,11 +17,29 @@ final class User extends BaseModel
     }
 
     /**
+     * @param string $search
+     * @param string $role
      * @return array<int, array{id:int,email:string,role:string,created_at:string}>
      */
-    public function all(): array
+    public function all(string $search = '', string $role = ''): array
     {
-        $stmt = $this->db->query('SELECT id, email, role, created_at FROM users ORDER BY id ASC');
+        $where = [];
+        $params = [];
+
+        if ($search !== '') {
+            $where[] = 'email ILIKE :search';
+            $params['search'] = '%' . $search . '%';
+        }
+
+        if ($role !== '') {
+            $where[] = 'role = :role';
+            $params['role'] = $role;
+        }
+
+        $whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+        $stmt = $this->db->prepare("SELECT id, email, role, created_at FROM users {$whereClause} ORDER BY id ASC");
+        $stmt->execute($params);
         return $stmt->fetchAll() ?: [];
     }
 

@@ -538,6 +538,62 @@ $pageTitle = $title . ' | The Gazette Admin';
             accent-color: var(--primary);
         }
 
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            align-items: flex-end;
+        }
+
+        .filter-bar .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-bar label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            margin: 0;
+            min-width: 150px;
+            height: 38px;
+        }
+
+        .filter-bar .search-input {
+            min-width: 250px;
+            flex: 1;
+        }
+
+        .filter-bar .filter-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-bar .btn {
+            height: 38px;
+            padding: 0 16px;
+        }
+
+        .results-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
         /* Responsive */
         @media (max-width: 900px) {
             .grid.cols-2, .grid.cols-3 {
@@ -567,6 +623,17 @@ $pageTitle = $title . ' | The Gazette Admin';
             nav a {
                 padding: 6px 10px;
                 font-size: 13px;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-bar input,
+            .filter-bar select,
+            .filter-bar .search-input {
+                min-width: 100%;
             }
 
             .topbar {

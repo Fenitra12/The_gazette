@@ -13,7 +13,8 @@ final class CategoryController extends BaseController
      */
     public function index(array $params = []): void
     {
-        $items = (new Category())->all();
+        $search = trim($_GET['search'] ?? '');
+        $items = (new Category())->all($search);
         $this->render('categories/index', [
             'csrf' => Csrf::token(),
             'items' => $items,

@@ -6,11 +6,17 @@ namespace BackOffice\Models;
 final class Category extends BaseModel
 {
     /**
+     * @param string $search
      * @return array<int, array{id:int,name:string,slug:string}>
      */
-    public function all(): array
+    public function all(string $search = ''): array
     {
-        $stmt = $this->db->query('SELECT id, name, slug FROM categories ORDER BY name ASC');
+        if ($search !== '') {
+            $stmt = $this->db->prepare('SELECT id, name, slug FROM categories WHERE name ILIKE :search OR slug ILIKE :search ORDER BY name ASC');
+            $stmt->execute(['search' => '%' . $search . '%']);
+        } else {
+            $stmt = $this->db->query('SELECT id, name, slug FROM categories ORDER BY name ASC');
+        }
         return $stmt->fetchAll() ?: [];
     }
 

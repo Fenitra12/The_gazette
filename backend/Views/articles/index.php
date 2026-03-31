@@ -4,6 +4,11 @@ declare(strict_types=1);
 use BackOffice\Core\Helpers;
 
 $title = 'Articles';
+
+// Récupération des filtres depuis l'URL
+$search = $_GET['search'] ?? '';
+$statusFilter = $_GET['status'] ?? '';
+$categoryFilter = $_GET['category'] ?? '';
 ?>
 <div class="card">
     <div class="card-header">
@@ -25,6 +30,49 @@ $title = 'Articles';
     <?php endif; ?>
     <?php if (!empty($error)): ?>
         <div class="alert error" role="alert"><?= Helpers::e((string)$error) ?></div>
+    <?php endif; ?>
+
+    <form method="get" action="/articles" class="filter-bar" role="search">
+        <div class="filter-group" style="flex:1;">
+            <label for="search">Rechercher</label>
+            <input type="search" id="search" name="search" class="search-input" placeholder="Titre, slug..." value="<?= Helpers::e($search) ?>">
+        </div>
+        <div class="filter-group">
+            <label for="status">Statut</label>
+            <select id="status" name="status">
+                <option value="">Tous</option>
+                <option value="draft" <?= $statusFilter === 'draft' ? 'selected' : '' ?>>Brouillon</option>
+                <option value="published" <?= $statusFilter === 'published' ? 'selected' : '' ?>>Publié</option>
+                <option value="archived" <?= $statusFilter === 'archived' ? 'selected' : '' ?>>Archivé</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="category">Catégorie</label>
+            <select id="category" name="category">
+                <option value="">Toutes</option>
+                <?php foreach (($categories ?? []) as $cat): ?>
+                    <option value="<?= (int)$cat['id'] ?>" <?= $categoryFilter == $cat['id'] ? 'selected' : '' ?>>
+                        <?= Helpers::e((string)$cat['name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button type="submit" class="btn secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Filtrer
+            </button>
+            <?php if ($search || $statusFilter || $categoryFilter): ?>
+                <a href="/articles" class="btn outline">Réinitialiser</a>
+            <?php endif; ?>
+        </div>
+    </form>
+
+    <?php 
+    $totalItems = count($items ?? []);
+    if ($search || $statusFilter || $categoryFilter): 
+    ?>
+        <p class="results-info"><?= $totalItems ?> résultat(s) trouvé(s)</p>
     <?php endif; ?>
 
     <div class="table-wrapper">
@@ -73,11 +121,15 @@ $title = 'Articles';
     <?php if (($pages ?? 1) > 1): ?>
         <nav class="pagination" aria-label="Pagination">
             <span class="pagination-info">Page <?= (int)$page ?> sur <?= (int)$pages ?></span>
+            <?php 
+            $queryParams = array_filter(['search' => $search, 'status' => $statusFilter, 'category' => $categoryFilter]);
+            $queryString = $queryParams ? '&' . http_build_query($queryParams) : '';
+            ?>
             <?php if ($page > 1): ?>
-                <a class="btn outline sm" href="/articles?page=<?= (int)($page - 1) ?>" aria-label="Page précédente">← Précédent</a>
+                <a class="btn outline sm" href="/articles?page=<?= (int)($page - 1) ?><?= $queryString ?>" aria-label="Page précédente">← Précédent</a>
             <?php endif; ?>
             <?php if ($page < $pages): ?>
-                <a class="btn outline sm" href="/articles?page=<?= (int)($page + 1) ?>" aria-label="Page suivante">Suivant →</a>
+                <a class="btn outline sm" href="/articles?page=<?= (int)($page + 1) ?><?= $queryString ?>" aria-label="Page suivante">Suivant →</a>
             <?php endif; ?>
         </nav>
     <?php endif; ?>

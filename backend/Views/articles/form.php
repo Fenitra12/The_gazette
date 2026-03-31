@@ -152,5 +152,42 @@ tinymce.init({
     promotion: false,
     license_key: 'gpl'
 });
+
+// Auto-génération du slug à partir du titre
+function slugify(text) {
+    return text.toString().toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
+const titleInput = document.getElementById('title');
+const slugInput = document.getElementById('slug');
+
+// Stocker le slug initial pour détecter les modifications manuelles
+let lastAutoSlug = slugify(titleInput.value);
+let slugManuallyEdited = slugInput.value.trim() !== '' && slugInput.value !== lastAutoSlug;
+
+titleInput.addEventListener('input', function() {
+    const newSlug = slugify(this.value);
+    if (!slugManuallyEdited) {
+        slugInput.value = newSlug;
+    }
+    lastAutoSlug = newSlug;
+});
+
+slugInput.addEventListener('input', function() {
+    // Si le slug correspond à l'auto-généré, ne pas considérer comme édition manuelle
+    slugManuallyEdited = this.value.trim() !== '' && this.value !== lastAutoSlug;
+});
+
+slugInput.addEventListener('blur', function() {
+    if (this.value.trim() === '') {
+        slugManuallyEdited = false;
+        slugInput.value = lastAutoSlug;
+    }
+});
 </script>
 

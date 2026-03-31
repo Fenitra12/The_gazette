@@ -47,3 +47,42 @@ $errors = $errors ?? [];
     </form>
 </div>
 
+<script>
+// Auto-génération du slug à partir du nom
+function slugify(text) {
+    return text.toString().toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
+const nameInput = document.getElementById('name');
+const slugInput = document.getElementById('slug');
+
+// Stocker le slug initial pour détecter les modifications manuelles
+let lastAutoSlug = slugify(nameInput.value);
+let slugManuallyEdited = slugInput.value.trim() !== '' && slugInput.value !== lastAutoSlug;
+
+nameInput.addEventListener('input', function() {
+    const newSlug = slugify(this.value);
+    if (!slugManuallyEdited) {
+        slugInput.value = newSlug;
+    }
+    lastAutoSlug = newSlug;
+});
+
+slugInput.addEventListener('input', function() {
+    // Si le slug correspond à l'auto-généré, ne pas considérer comme édition manuelle
+    slugManuallyEdited = this.value.trim() !== '' && this.value !== lastAutoSlug;
+});
+
+slugInput.addEventListener('blur', function() {
+    if (this.value.trim() === '') {
+        slugManuallyEdited = false;
+        slugInput.value = lastAutoSlug;
+    }
+});
+</script>
+

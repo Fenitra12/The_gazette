@@ -5,6 +5,10 @@ use BackOffice\Core\Auth;
 use BackOffice\Core\Helpers;
 
 $title = 'Utilisateurs';
+
+// Récupération des filtres depuis l'URL
+$search = $_GET['search'] ?? '';
+$roleFilter = $_GET['role'] ?? '';
 ?>
 <div class="card">
     <div class="card-header">
@@ -26,6 +30,37 @@ $title = 'Utilisateurs';
     <?php endif; ?>
     <?php if (!empty($error)): ?>
         <div class="alert error" role="alert"><?= Helpers::e((string)$error) ?></div>
+    <?php endif; ?>
+
+    <form method="get" action="/users" class="filter-bar" role="search">
+        <div class="filter-group" style="flex:1;">
+            <label for="search">Rechercher</label>
+            <input type="search" id="search" name="search" class="search-input" placeholder="Email..." value="<?= Helpers::e($search) ?>">
+        </div>
+        <div class="filter-group">
+            <label for="role">Rôle</label>
+            <select id="role" name="role">
+                <option value="">Tous</option>
+                <option value="admin" <?= $roleFilter === 'admin' ? 'selected' : '' ?>>Admin</option>
+                <option value="editor" <?= $roleFilter === 'editor' ? 'selected' : '' ?>>Éditeur</option>
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button type="submit" class="btn secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Filtrer
+            </button>
+            <?php if ($search || $roleFilter): ?>
+                <a href="/users" class="btn outline">Réinitialiser</a>
+            <?php endif; ?>
+        </div>
+    </form>
+
+    <?php 
+    $totalItems = count($items ?? []);
+    if ($search || $roleFilter): 
+    ?>
+        <p class="results-info"><?= $totalItems ?> résultat(s) trouvé(s)</p>
     <?php endif; ?>
 
     <div class="table-wrapper">

@@ -4,6 +4,9 @@ declare(strict_types=1);
 use BackOffice\Core\Helpers;
 
 $title = 'Catégories';
+
+// Récupération des filtres depuis l'URL
+$search = $_GET['search'] ?? '';
 ?>
 <div class="card">
     <div class="card-header">
@@ -25,6 +28,29 @@ $title = 'Catégories';
     <?php endif; ?>
     <?php if (!empty($error)): ?>
         <div class="alert error" role="alert"><?= Helpers::e((string)$error) ?></div>
+    <?php endif; ?>
+
+    <form method="get" action="/categories" class="filter-bar" role="search">
+        <div class="filter-group" style="flex:1;">
+            <label for="search">Rechercher</label>
+            <input type="search" id="search" name="search" class="search-input" placeholder="Nom, slug..." value="<?= Helpers::e($search) ?>">
+        </div>
+        <div class="filter-actions">
+            <button type="submit" class="btn secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Rechercher
+            </button>
+            <?php if ($search): ?>
+                <a href="/categories" class="btn outline">Réinitialiser</a>
+            <?php endif; ?>
+        </div>
+    </form>
+
+    <?php 
+    $totalItems = count($items ?? []);
+    if ($search): 
+    ?>
+        <p class="results-info"><?= $totalItems ?> résultat(s) trouvé(s)</p>
     <?php endif; ?>
 
     <div class="table-wrapper">
