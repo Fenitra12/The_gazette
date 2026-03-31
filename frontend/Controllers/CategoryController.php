@@ -52,6 +52,12 @@ class CategoryController extends BaseController
             ],
         ];
 
+        // LCP preload : premiere image du slider editorial
+        $firstEditorial = $editorialArticles[0] ?? null;
+        $lcpImage = $firstEditorial
+            ? \App\Core\ImageHelper::url('blog-img/' . (($firstEditorial['id'] % 25) + 1) . '.jpg', 400)
+            : null;
+
         $data = [
             'metaTitle'         => htmlspecialchars($category['name']) . ' | TheGazette',
             'metaDescription'   => 'Articles about ' . htmlspecialchars($category['name']) . ' - Iran conflict and geopolitical analysis.',
@@ -61,6 +67,7 @@ class CategoryController extends BaseController
             'currentPage'       => $page,
             'totalPages'        => $totalPages,
             'schemaOrg'         => $schemaOrg,
+            'lcpImage'          => $lcpImage,
         ];
 
         return $this->render('category/index', $data);

@@ -12,6 +12,9 @@
     .welcome-blog-post-slide .single-blog-post-slide {
         height: 450px;
     }
+    .welcome-blog-post-slide {
+        max-height: 450px;
+    }
     .dont-miss-post-thumb {
         margin-right: 15px;
     }
@@ -63,6 +66,9 @@
     }
     .welcome-blog-post-slide .single-blog-post-slide {
         height: 420px;
+    }
+    .welcome-blog-post-slide {
+        max-height: 420px;
     }
     .todays-post-thumb,
     .dont-miss-post-thumb {
@@ -136,6 +142,9 @@
     }
     .welcome-blog-post-slide .single-blog-post-slide {
         height: 380px;
+    }
+    .welcome-blog-post-slide {
+        max-height: 380px;
     }
     .single-blog-post-slide h3 a {
         font-size: 24px;

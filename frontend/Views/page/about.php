@@ -42,14 +42,14 @@
                     <div class="single-team-area">
                         <?= img('bg-img/t1.jpg', 'Team member - Editor', 255, 170) ?>
                         <div class="team-member-data">
-                            <h4 class="font-pt">Jane Doe</h4>
+                            <h3 class="font-pt">Jane Doe</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
-                                <h5 class="font-pt mb-0">Editor</h5>
+                                <p class="font-pt mb-0">Editor</p>
                                 <div class="social-info">
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" aria-label="Jane Doe sur Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Jane Doe sur LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Jane Doe sur Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Jane Doe sur Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -59,14 +59,14 @@
                     <div class="single-team-area">
                         <?= img('bg-img/t2.jpg', 'Team member - Reporter', 255, 170) ?>
                         <div class="team-member-data">
-                            <h4 class="font-pt">John Smith</h4>
+                            <h3 class="font-pt">John Smith</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
-                                <h5 class="font-pt mb-0">Reporter</h5>
+                                <p class="font-pt mb-0">Reporter</p>
                                 <div class="social-info">
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" aria-label="John Smith sur Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="John Smith sur LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="John Smith sur Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="John Smith sur Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -76,14 +76,14 @@
                     <div class="single-team-area">
                         <?= img('bg-img/t3.jpg', 'Team member - Analyst', 255, 170) ?>
                         <div class="team-member-data">
-                            <h4 class="font-pt">Sarah Johnson</h4>
+                            <h3 class="font-pt">Sarah Johnson</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
-                                <h5 class="font-pt mb-0">Analyst</h5>
+                                <p class="font-pt mb-0">Analyst</p>
                                 <div class="social-info">
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" aria-label="Sarah Johnson sur Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Sarah Johnson sur LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Sarah Johnson sur Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Sarah Johnson sur Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -93,14 +93,14 @@
                     <div class="single-team-area">
                         <?= img('bg-img/t4.jpg', 'Team member - Photographer', 255, 170) ?>
                         <div class="team-member-data">
-                            <h4 class="font-pt">Mike Brown</h4>
+                            <h3 class="font-pt">Mike Brown</h3>
                             <div class="team-member-designation-social-info d-flex align-items-cente justify-content-between">
-                                <h5 class="font-pt mb-0">Photographer</h5>
+                                <p class="font-pt mb-0">Photographer</p>
                                 <div class="social-info">
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" aria-label="Mike Brown sur Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Mike Brown sur LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Mike Brown sur Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                    <a href="#" aria-label="Mike Brown sur Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                 <div class="cta-content text-center">
                     <h2 class="font-pt">Join Our Team</h2>
                     <p>We are always looking for talented journalists, analysts, and photographers to join our mission of delivering quality news coverage.</p>
-                    <a href="/contact" class="btn gazette-btn font-pt">Contact Us <i class="fa fa-angle-right"></i></a>
+                    <a href="/contact" class="btn gazette-btn font-pt">Contact Us <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
