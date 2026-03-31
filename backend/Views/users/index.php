@@ -7,7 +7,7 @@ use BackOffice\Core\Helpers;
 $title = 'Utilisateurs';
 ?>
 <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div>
             <h1 style="margin:0 0 6px;">Utilisateurs</h1>
             <p class="muted" style="margin:0;">Comptes BackOffice (authentification).</p>
@@ -43,12 +43,14 @@ $title = 'Utilisateurs';
                         <?php endif; ?>
                     </td>
                     <td style="padding:10px;border-bottom:1px solid #f3f4f6;"><?= Helpers::e((string)$it['role']) ?></td>
-                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;white-space:nowrap;">
-                        <a class="btn secondary" href="/users/<?= (int)$it['id'] ?>/edit">Éditer</a>
-                        <form method="post" action="/users/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
-                            <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
-                            <button class="btn danger" type="submit" <?= (Auth::id() === (int)$it['id']) ? 'disabled' : '' ?> onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</button>
-                        </form>
+                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;">
+                        <div class="action-buttons" style="white-space:nowrap;">
+                            <a class="btn secondary" href="/users/<?= (int)$it['id'] ?>/edit">Éditer</a>
+                            <form method="post" action="/users/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
+                                <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
+                                <button class="btn danger" type="submit" <?= (Auth::id() === (int)$it['id']) ? 'disabled' : '' ?> onclick="return confirm('Supprimer cet utilisateur ?');">Supprimer</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>

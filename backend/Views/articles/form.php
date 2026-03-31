@@ -10,7 +10,7 @@ $errors = $errors ?? [];
 ?>
 
 <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div>
             <h1 style="margin:0 0 6px;"><?= Helpers::e($title) ?></h1>
             <p class="muted" style="margin:0;">Champs obligatoires: titre, slug, contenu.</p>
@@ -122,7 +122,7 @@ $errors = $errors ?? [];
             Mettre en avant
         </label>
 
-        <div style="margin-top:16px;display:flex;gap:10px;">
+        <div class="form-actions" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
             <button class="btn" type="submit"><?= $isEdit ? 'Enregistrer' : 'Créer' ?></button>
             <a class="btn secondary" href="/articles">Annuler</a>
         </div>

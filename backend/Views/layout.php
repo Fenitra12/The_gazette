@@ -36,6 +36,31 @@ $title = $title ?? 'BackOffice';
         @media (max-width: 900px) {
             .grid.cols-2 { grid-template-columns: 1fr; }
         }
+        @media (max-width: 768px) {
+            header { padding: 10px 12px; gap: 10px; }
+            nav { gap: 8px; }
+            .container { margin: 16px auto; padding: 0 12px; }
+            .card { padding: 12px; }
+            .page-header { flex-direction: column; align-items: flex-start !important; gap: 12px !important; }
+            .page-header .btn { width: 100%; text-align: center; }
+            .action-buttons { display: flex; flex-direction: column; gap: 6px; }
+            .action-buttons form { display: block !important; }
+            .action-buttons .btn { width: 100%; text-align: center; display: block; }
+            table th, table td { padding: 8px 6px !important; font-size: 14px; }
+            .btn { padding: 8px 10px; font-size: 14px; }
+            .form-actions { flex-direction: column !important; }
+            .form-actions .btn { width: 100%; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            header { flex-direction: column; align-items: flex-start; }
+            nav { width: 100%; justify-content: flex-start; }
+            .topbar { width: 100%; justify-content: space-between; margin-left: 0; }
+            .hide-mobile { display: none !important; }
+            table { font-size: 13px; }
+            table th, table td { padding: 6px 4px !important; }
+            h1 { font-size: 1.4rem; }
+            h2 { font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>

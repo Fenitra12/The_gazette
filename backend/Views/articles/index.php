@@ -6,7 +6,7 @@ use BackOffice\Core\Helpers;
 $title = 'Articles';
 ?>
 <div class="card">
-    <div style="display:flex;align-items:center;gap:12px;justify-content:space-between;">
+    <div class="page-header" style="display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;">
         <div>
             <h1 style="margin:0 0 6px;">Articles</h1>
             <p class="muted" style="margin:0;">Gestion des contenus.</p>
@@ -44,12 +44,14 @@ $title = 'Articles';
                     <td style="padding:10px;border-bottom:1px solid #f3f4f6;"><?= Helpers::e((string)$it['category_name']) ?></td>
                     <td style="padding:10px;border-bottom:1px solid #f3f4f6;"><?= Helpers::e((string)$it['author_name']) ?></td>
                     <td style="padding:10px;border-bottom:1px solid #f3f4f6;"><?= Helpers::e((string)$it['status']) ?></td>
-                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;white-space:nowrap;">
-                        <a class="btn secondary" href="/articles/<?= (int)$it['id'] ?>/edit">Éditer</a>
-                        <form method="post" action="/articles/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
-                            <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
-                            <button class="btn danger" type="submit" onclick="return confirm('Supprimer cet article ?');">Supprimer</button>
-                        </form>
+                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;">
+                        <div class="action-buttons" style="white-space:nowrap;">
+                            <a class="btn secondary" href="/articles/<?= (int)$it['id'] ?>/edit">Éditer</a>
+                            <form method="post" action="/articles/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
+                                <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
+                                <button class="btn danger" type="submit" onclick="return confirm('Supprimer cet article ?');">Supprimer</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -6,7 +6,7 @@ use BackOffice\Core\Helpers;
 $title = 'Auteurs';
 ?>
 <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div>
             <h1 style="margin:0 0 6px;">Auteurs</h1>
             <p class="muted" style="margin:0;">Référentiel des auteurs (liés aux articles).</p>
@@ -35,12 +35,14 @@ $title = 'Auteurs';
             <?php foreach (($items ?? []) as $it): ?>
                 <tr>
                     <td style="padding:10px;border-bottom:1px solid #f3f4f6;"><?= Helpers::e((string)$it['name']) ?></td>
-                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;white-space:nowrap;">
-                        <a class="btn secondary" href="/authors/<?= (int)$it['id'] ?>/edit">Éditer</a>
-                        <form method="post" action="/authors/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
-                            <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
-                            <button class="btn danger" type="submit" onclick="return confirm('Supprimer cet auteur ?');">Supprimer</button>
-                        </form>
+                    <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;">
+                        <div class="action-buttons" style="white-space:nowrap;">
+                            <a class="btn secondary" href="/authors/<?= (int)$it['id'] ?>/edit">Éditer</a>
+                            <form method="post" action="/authors/<?= (int)$it['id'] ?>/delete" style="display:inline;margin:0;">
+                                <input type="hidden" name="_csrf" value="<?= Helpers::e((string)$csrf) ?>">
+                                <button class="btn danger" type="submit" onclick="return confirm('Supprimer cet auteur ?');">Supprimer</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
